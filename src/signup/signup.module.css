@@ -1,0 +1,164 @@
+.loginmain {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  display: flex;
+  background-color: yellow;
+  height: 60vh;
+  width: 60vw;
+}
+.leftContainer {
+  display: flex;
+  background-color: rgb(175, 175, 50);
+  flex-direction: column;
+  height: 100%;
+  flex: 1;
+  /* justify-content: space-between; */
+}
+.logoContainer {
+
+  display: flex;
+  justify-content: right;
+}
+.logo {
+  background-image: url("../../public/logo.png");
+  height: 120px;
+  width: 120px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  margin: 10px;
+}
+.welcome {
+  display: flex;
+  flex-direction: column;
+  justify-content:space-between;
+  align-items: center;
+  color: antiquewhite;
+  height: 100%;
+}
+.paragraph{
+    position:relative;
+    bottom:35px;
+    padding:10px;
+}
+.paragraph>ul>li{
+    font-weight: bold;
+    margin-top:5px;
+}
+
+.companyname{
+    position: relative;
+    bottom:25px;
+    font-size: 1.1rem;
+    font-weight:500;
+}
+.rightContainer {
+  display: flex;
+  background-color: purple;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  flex: 1;
+  order: -1;
+}
+.frame {
+  display: flex;
+  height: 90%;
+  width: 80%;
+  color: white;
+  border: 2px solid white;
+  align-items: center;
+  flex-direction: column;
+}
+.form {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  flex-direction: column;
+
+  margin-top: 10px;
+}
+.signUpTitle {
+  font-size: 2rem;
+  color: white;
+  font-weight: bolder;
+
+  padding: 20px 5px;
+}
+.emailInput,
+.passwordInput {
+  display: flex;
+  width: 80%;
+  border: 1px solid white;
+  margin-bottom: 20px;
+}
+.emailInput > input,
+.passwordInput > input {
+  position: relative;
+  top: 5px;
+  margin-left: 5px;
+  height: 25px;
+  width: 100%;
+  background-color: transparent;
+  border: none;
+
+  outline: none;
+  color: white;
+}
+
+.icon {
+  position: relative;
+  color: antiquewhite;
+
+  height: 30px;
+  width: 30px;
+  padding: 2px;
+}
+::placeholder {
+  position: relative;
+  left: 5px;
+  color: white;
+}
+.button {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+.loginbutton {
+  width: 80%;
+  height: 30px;
+  color: white;
+  /* font-weight: bold; */
+  font-size: 1.05rem;
+  background-image: linear-gradient(to right, rgb(194, 43, 194), yellow);
+}
+.forgetPassword {
+  display: flex;
+  width: 80%;
+  justify-content: right;
+  margin-bottom: 10px;
+}
+.forgetPassword > a {
+  color: white;
+}
+.signupbutton {
+  width: 60%;
+  height: 30px;
+  color: white;
+  background-image: linear-gradient(to left, rgb(194, 43, 194), yellow);
+}
+
+@media (max-width:720px){
+    .leftContainer{
+        display: none;
+    }
+    .container{
+        height:60vh;
+        width:80vw;
+    }
+}
