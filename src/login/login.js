@@ -13,9 +13,10 @@ const Login = () => {
       password: passwordref.current.value,
     };
     axios
-      .post("http://localhost:3000/user/login", myobj)
+      .post("http://localhost:4000/user/login", myobj)
       .then((res) => {
         console.log(res);
+        localStorage.setItem("token",res.data.token)
       })
       .catch((err) => {
         console.log(err);

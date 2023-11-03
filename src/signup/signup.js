@@ -24,9 +24,11 @@ const SignUp = () => {
     };
     console.log(myObj);
     axios
-      .post("http://localhost:3000/user/savedata", myObj)
+      .post("http://localhost:4000/user/savedata", myObj)
       .then((response) => {
         console.log(response);
+        
+
       })
       .catch((err) => {
         console.log(err);
