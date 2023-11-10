@@ -3,8 +3,9 @@ import { useRef } from "react";
 import logincss from "../login/login.module.css";
 import { SiMinutemailer } from "react-icons/si";
 import { RiLockPasswordLine } from "react-icons/ri";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 const Login = () => {
+  const navigate=useNavigate()
   const emailref = useRef();
   const passwordref = useRef();
   const logindetailHandler = () => {
@@ -17,11 +18,16 @@ const Login = () => {
       .then((res) => {
         console.log(res);
         localStorage.setItem("token",res.data.token)
+        localStorage.setItem("isLoggedIn",true)
+        navigate("/")
       })
       .catch((err) => {
         console.log(err);
       });
   };
+  const signuppageRediecter=()=>{
+navigate("/signup")
+  }
   return (
     <div className={logincss.loginmain}>
       {" "}
@@ -62,7 +68,7 @@ const Login = () => {
             </div>
             <h3>or</h3>
             <div className={logincss.button}>
-              <button className={logincss.signupbutton}>SignUp</button>
+              <button className={logincss.signupbutton} onClick={signuppageRediecter}>SignUp</button>
             </div>
           </div>
         </div>

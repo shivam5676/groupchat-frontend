@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const data = { Allmsg: [] };
+const data = { Allmsg: [], groupId: [],groupName:[] };
 const DataSlice = createSlice({
   name: "messagedata",
   initialState: data,
@@ -14,6 +14,13 @@ const DataSlice = createSlice({
       }
       return state.Allmsg;
     },
+    addGroupId(state, action) {
+      console.log(action.payload);
+      state.groupId = action.payload;
+    },
+    addGroupName(state,action){
+      state.groupName=action.payload
+    }
   },
 });
 export const dataSliceActions = DataSlice.actions;

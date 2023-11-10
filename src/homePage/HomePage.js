@@ -1,64 +1,48 @@
 import axios from "axios";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import homepagecss from "./HomePage.module.css";
+import ChatWindow from "../chat/chatWindow";
+import GroupList from "../groups/groupList";
+import AddGroup from "../groups/addGroup";
+import { MdOutlineGroupAdd } from "react-icons/md";
+import { AiFillSetting } from "react-icons/ai";
+import { FiLogOut } from "react-icons/fi";
+import SidePanel from "../sidePanel/sidepanel";
+const HomePage = () => {
+  const [openAddGroup, setOpenAddGroup] = useState(false);
+  useEffect(() => {
+    axios
+      .get("http://localhost:4000/user/verify", {
+        headers: { Authorization: localStorage.getItem("token") },
+      })
+      .then((res) => {
+        console.log(res.data);
+        localStorage.setItem("myId", res.data.user.id);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+  const openAddGroupHandler = () => {
+    setOpenAddGroup(true);
+  };
 
-const HomePage=()=>{
-    useEffect(() => {
-   
+  return (
+    <div className={homepagecss.main}>
+      <div className={homepagecss.navigation}></div>
 
-        // axios
-        //   .get(`http://localhost:4000/user/getmsg`, {
-        //     headers: { Authorization: localStorage.getItem("token") },
-        //   })
-        //   .then((response) => {
-        //     console.log(response);
-        //     localStorage.setItem("chat", JSON.stringify(response.data));
-        //   })
-        //   .catch((err) => {
-        //     console.log(err);
-        //   });
-     
-         
-        
-        
-        
-        const intervalId = setInterval(() => {
-const chatArray = JSON.parse(localStorage.getItem("chat"));
-     
-     let lastMessageId;
-     if(chatArray){
-        lastMessageId=chatArray[chatArray.length-1].id;
-     }
-console.log(lastMessageId);
-            console.log("chatArray")
-          axios
-            .get(`http://localhost:4000/user/getmsg?lastmsgId=${lastMessageId}`, {
-              headers: { Authorization: localStorage.getItem("token") },
-            })
-            .then((response) => {
-              console.log("array",response.data);
-              //chatarray length is 6 annd new array length is 7
-              if(chatArray){
-                console.log("chatarray",chatArray)
-               let mergedarray=chatArray.concat(response.data)
-            console.log("mergedarray",mergedarray)
-            localStorage.setItem("chat",JSON.stringify(mergedarray))
-              }
-              else{
-                localStorage.setItem("chat", JSON.stringify(response.data))
-              }
-              
-            
-           
-            })
-            .catch((err) => {
-    
-              console.log(err);
-            });
-        }, 3000);
-        return () => {
-          clearInterval(intervalId);
-        };
-      }, []);
+      <div className={homepagecss.container}>
+        <div className={homepagecss.containerBox}>
+          <SidePanel></SidePanel>
 
-}
-export default HomePage
+          <div className={homepagecss.mainBox}>
+            <GroupList></GroupList>
+            <ChatWindow></ChatWindow>
+          </div>
+        
+        </div>
+      </div>
+    </div>
+  );
+};
+export default HomePage;

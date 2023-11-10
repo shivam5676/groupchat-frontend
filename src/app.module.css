@@ -9,3 +9,7 @@ body {
     height:100vh;
     background-color: aquamarine;
 }
+p{
+  padding:0;
+  margin: 0;
+}

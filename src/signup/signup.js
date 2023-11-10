@@ -3,8 +3,10 @@ import axios from "axios";
 import signupcss from "./signup.module.css";
 import { SiMinutemailer } from "react-icons/si";
 import { RiLockPasswordLine } from "react-icons/ri";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import { MdOutlineDriveFileRenameOutline } from "react-icons/md";
 const SignUp = () => {
+  const navigate=useNavigate();
   const emailref = useRef();
   const passwordref = useRef();
   const nameref = useRef();
@@ -27,13 +29,18 @@ const SignUp = () => {
       .post("http://localhost:4000/user/savedata", myObj)
       .then((response) => {
         console.log(response);
-        
+        setTimeout(() => {
+          navigate("/login")
+        }, 3000);
 
       })
       .catch((err) => {
         console.log(err);
       });
   };
+  const loginPageRedirecter=()=>{
+    return navigate("/login")
+  }
   return (
     <div className={signupcss.loginmain}>
       {" "}
@@ -60,7 +67,7 @@ const SignUp = () => {
             <div className={signupcss.signUpTitle}>SIGN-UP</div>
             <div className={signupcss.form}>
               <div className={signupcss.emailInput}>
-                <SiMinutemailer className={signupcss.icon}></SiMinutemailer>
+                <MdOutlineDriveFileRenameOutline className={signupcss.icon}></MdOutlineDriveFileRenameOutline>
                 <input ref={nameref} placeholder="Enter your name"></input>
               </div>
               <div className={signupcss.emailInput}>
@@ -88,7 +95,7 @@ const SignUp = () => {
             </div>
             <h3>or</h3>
             <div className={signupcss.button}>
-              <button className={signupcss.signupbutton}>SignIn</button>
+              <button className={signupcss.signupbutton} onClick={loginPageRedirecter}>SignIn</button>
             </div>
           </div>
         </div>

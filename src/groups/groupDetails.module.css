@@ -1,0 +1,34 @@
+.pageDetails{
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(94, 135, 168);
+    height:100%;
+    border-radius:0px 50px 50px 0px;
+  }
+  .pageData{
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    height:150px;
+    width:100%;
+    
+  }
+  .pageimg{
+    width:80px;
+    height:80px;
+    border:2px solid black;
+    margin:10px;
+  }
+  .Backbtn{
+    margin:10px 20px
+  }
+  .pageMemberTitle{
+    display: flex;
+    justify-content: center;
+  }
+  .pageMemberList{
+    display:flex;
+    border:1px solid black;
+    height:100%;
+    border-radius:0px 0px 50px 0px;
+  }

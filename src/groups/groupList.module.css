@@ -1,0 +1,85 @@
+
+.groupList {
+  display: flex;
+  flex-direction: column;
+  flex-basis: 260px;
+  height: 100%;
+ border-left: 1px solid gray;
+ border-right: 1px solid grey;
+
+}
+.groupTitle {
+  display: flex;
+  font-weight: bolder;
+  font-size: 2rem;
+  margin: 0px 5px;
+  padding: 10px 0px 10px 5px;
+}
+.groups {
+  flex: 1;
+
+  overflow-y: scroll;
+  margin-bottom: 30px;
+}
+.item {
+  display: flex;
+
+  flex-basis: 100%;
+  height: 75px;
+  background-color: aliceblue;
+  margin:  10px;
+  border-radius: 10px;
+  align-items: center;
+}
+.active {
+  background-color: blue;
+  color: white;
+}
+.profileImg {
+  width: 50px;
+  height: 45px;
+  border: 2px solid red;
+  border-radius: 50px;
+  margin: 5px 5px 5px 10px;
+}
+.groupInfo {
+  display: flex;
+  height: 100%;
+  flex-basis: 100%;
+
+  border-radius: 0px 15px 15px 0px;
+  flex-direction: column;
+}
+.groupName {
+  display: flex;
+  font-weight: bold;
+  font-size: 0.9rem;
+  flex-direction: column;
+  padding: 7px 0px;
+  max-width: 130px;
+  margin-top:10px;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.lastMsg {
+  display: flex;
+
+  width: 130px;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 0.85rem;
+}
+.groups::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.groups {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
