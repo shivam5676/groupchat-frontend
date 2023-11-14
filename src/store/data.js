@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const data = { Allmsg: [], groupId: [],groupName:[] };
+const data = { Allmsg: [], groupId: [], groupName: [], isWindowOpen: false };
 const DataSlice = createSlice({
   name: "messagedata",
   initialState: data,
@@ -18,8 +18,14 @@ const DataSlice = createSlice({
       console.log(action.payload);
       state.groupId = action.payload;
     },
-    addGroupName(state,action){
-      state.groupName=action.payload
+    addGroupName(state, action) {
+      state.groupName = action.payload;
+    },
+    activateChatWindow(state) {
+      state.isWindowOpen = true;
+    },
+    deactivateChatWindow(state) {
+      state.isWindowOpen = false;
     }
   },
 });

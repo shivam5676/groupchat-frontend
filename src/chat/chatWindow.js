@@ -1,12 +1,14 @@
 import { useEffect, useRef, useState } from "react";
 import windowcss from "./chatWindow.module.css";
 import axios from "axios";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { IoArrowBackCircleSharp } from "react-icons/io5";
-import { FaArrowCircleLeft } from "react-icons/fa"
+import { FaArrowCircleLeft } from "react-icons/fa";
 import GroupDetails from "../groups/GroupDetails";
+import { dataSliceActions } from "../store/data";
 
 const ChatWindow = () => {
+  const dispatch=useDispatch();
   const messageref = useRef();
   const [pageDetail, setPageDetail] = useState(false);
 
@@ -17,7 +19,9 @@ const ChatWindow = () => {
   const groupName = useSelector((state) => {
     return state.data.groupName;
   });
-
+  const chatWindowOpen = useSelector((state) => {
+    return state.data.isWindowOpen;
+  })
   console.log(groupId);
   const sendmsgHandler = () => {
     const messageData = messageref.current.value;
@@ -75,7 +79,7 @@ const ChatWindow = () => {
         .catch((err) => {
           console.log(err);
         });
-    }, 5000);
+    }, 2555000);
     return () => {
       clearInterval(intervalId);
     };
@@ -127,16 +131,19 @@ const ChatWindow = () => {
   const pageDetailsViewer = () => {
     setPageDetail(true);
   };
-const backbuttonHandler=()=>{
-  setPageDetail(false);
-}
+  const backbuttonHandler = () => {
+    setPageDetail(false);
+  };
+  const chatWindowCloseHandler=()=>{
+dispatch(dataSliceActions.deactivateChatWindow())
+  }
   return (
     <div className={windowcss.chatBox}>
-      <div className={windowcss.chatBoxContainer}>
+     {chatWindowOpen && <div className={windowcss.chatBoxContainer}>
         {!pageDetail ? (
           <>
             <div className={windowcss.chatProfile}>
-              <div className={windowcss.backbtn}>
+              <div className={windowcss.backbtn} onClick={chatWindowCloseHandler}>
                 <IoArrowBackCircleSharp
                   className={windowcss.backbtnicon}
                 ></IoArrowBackCircleSharp>
@@ -162,17 +169,7 @@ const backbuttonHandler=()=>{
         ) : (
           <GroupDetails closeDetailPage={backbuttonHandler}></GroupDetails>
         )}
-        {/* <div className={windowcss.pageDetails}>
-          <div className={windowcss.Backbtn}><FaArrowCircleLeft className={windowcss.backbtnicon} onClick={backbuttonHandler}></FaArrowCircleLeft></div>
-          <div className={windowcss.pageData}>
-            <div className={windowcss.pageimg}></div>
-
-            <div className={windowcss.pageTitle}>group details</div>
-          </div>
-          <div  className={windowcss.pageMemberTitle}>group member</div>
-          <div className={windowcss.pageMemberList}></div>
-        </div> */}
-      </div>
+      </div>}
     </div>
   );
 };

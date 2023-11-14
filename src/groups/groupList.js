@@ -14,6 +14,7 @@ const GroupList = (props) => {
     console.log(group);
     dispatch(dataSliceActions.addGroupId(group.id));
     dispatch(dataSliceActions.addGroupName(group.groupName))
+    dispatch(dataSliceActions.activateChatWindow())
     setActive(group.id);
   };
   console.log(isActive);
