@@ -3,6 +3,8 @@ import groupListcss from "./groupList.module.css";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { dataSliceActions } from "../store/data";
+import { io } from "socket.io-client";
+import socket from "../socket/socket";
 
 const GroupList = (props) => {
   const [openAddGroup, setOpenAddGroup] = useState(false);
@@ -13,8 +15,8 @@ const GroupList = (props) => {
   const groupHandler = (group) => {
     console.log(group);
     dispatch(dataSliceActions.addGroupId(group.id));
-    dispatch(dataSliceActions.addGroupName(group.groupName))
-    dispatch(dataSliceActions.activateChatWindow())
+    dispatch(dataSliceActions.addGroupName(group.groupName));
+    dispatch(dataSliceActions.activateChatWindow());
     setActive(group.id);
   };
   console.log(isActive);
@@ -26,6 +28,23 @@ const GroupList = (props) => {
       })
       .then((response) => {
         const newArray = response.data.map((current) => {
+          socket.emit("join-room", current[0].id);
+          //fetch data of current joined group
+          axios
+            .get(`http://localhost:4000/user/getmsg?groupid=${current[0].id}`, {
+              headers: { Authorization: localStorage.getItem("token") },
+            })
+            .then((response) => {
+              console.log("array", response.data);
+              response.data.forEach((item) => {
+                dispatch(dataSliceActions.addMsg(item));
+              });
+            })
+
+            .catch((err) => {
+              console.log(err);
+            });
+            //display current group card
           return (
             <div
               className={`${groupListcss.item} ${

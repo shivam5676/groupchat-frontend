@@ -4,6 +4,7 @@ import userListCss from "./userList.module.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import { HiMiniShieldCheck } from "react-icons/hi2"
 const UserList = () => {
   const [totalUser, settotalUser] = useState([]);
   const currentgroupId = useSelector((state) => {
@@ -49,7 +50,7 @@ const UserList = () => {
       })
       .then((response) => {
         const newArray = response.data.map((current) => {
-          console.log(current);
+          console.log(current.isAdmin);
           return (
             <div className={userListCss.memberCard} key={current.userId}>
               <div className={userListCss.memberDetails}>
@@ -57,7 +58,7 @@ const UserList = () => {
                 <div className={userListCss.memberdetailsText}>
                   {" "}
                   <div className={userListCss.memberName}>
-                    {current.usersdata.name}
+                    {current.usersdata.name}{current.isAdmin&&<HiMiniShieldCheck className={userListCss.adminIcon}></HiMiniShieldCheck>}
                   </div>
                   <div className={userListCss.memberPhone}>
                     {current.usersdata.mobile}
@@ -65,7 +66,7 @@ const UserList = () => {
                 </div>
               </div>{" "}
               <div className={userListCss.memberActions}>
-                {current.isAdmin?<div
+                {!current.isAdmin?<div
                   className={userListCss.actionIcon}
                   onClick={() => {
                     addAdminHandler(current.userId);

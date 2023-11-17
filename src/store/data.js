@@ -1,18 +1,21 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const data = { Allmsg: [], groupId: [], groupName: [], isWindowOpen: false };
+const data = { Allmsg: {}, groupId: [], groupName: [], isWindowOpen: false };
 const DataSlice = createSlice({
   name: "messagedata",
   initialState: data,
   reducers: {
     addMsg(state, action) {
-      const msgTobeAdded = state.Allmsg.find((current) => {
-        return current.id === action.payload.id;
-      });
-      if (msgTobeAdded) {
-        return state.Allmsg.push(action.payload);
-      }
-      return state.Allmsg;
+    
+     
+      const groupNameExist = state.Allmsg[action.payload.groupId];
+      const message = action.payload;
+      if (groupNameExist) {
+        const UpdatedData = [...groupNameExist];
+        UpdatedData.push(message);
+        console.log("UpdatedData", UpdatedData);
+        state.Allmsg[action.payload.groupId] = UpdatedData;
+      } else state.Allmsg[action.payload.groupId] = [action.payload];
     },
     addGroupId(state, action) {
       console.log(action.payload);
@@ -26,7 +29,7 @@ const DataSlice = createSlice({
     },
     deactivateChatWindow(state) {
       state.isWindowOpen = false;
-    }
+    },
   },
 });
 export const dataSliceActions = DataSlice.actions;

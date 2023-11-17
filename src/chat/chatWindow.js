@@ -6,9 +6,10 @@ import { IoArrowBackCircleSharp } from "react-icons/io5";
 import { FaArrowCircleLeft } from "react-icons/fa";
 import GroupDetails from "../groups/GroupDetails";
 import { dataSliceActions } from "../store/data";
-
+import socket from "../socket/socket";
+// import io from "socket.io-client";
 const ChatWindow = () => {
-  const dispatch=useDispatch();
+  const dispatch = useDispatch();
   const messageref = useRef();
   const [pageDetail, setPageDetail] = useState(false);
 
@@ -16,76 +17,36 @@ const ChatWindow = () => {
   const groupId = useSelector((state) => {
     return state.data.groupId;
   });
+  const allmessage = useSelector((state) => {
+    return state.data.Allmsg[groupId];
+  });
+  console.log("allmessage", allmessage);
   const groupName = useSelector((state) => {
     return state.data.groupName;
   });
   const chatWindowOpen = useSelector((state) => {
     return state.data.isWindowOpen;
-  })
+  });
   console.log(groupId);
+
   const sendmsgHandler = () => {
     const messageData = messageref.current.value;
     console.log(messageData);
-    axios
-      .post(
-        `http://localhost:4000/user/sendmsg?groupid=${groupId}`,
-        { messageData },
-        {
-          headers: { Authorization: localStorage.getItem("token") },
-        }
-      )
-      .then((result) => {
-        console.log(result);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+
+    socket.emit("sendmsg", { message: messageData, groupid: groupId });
   };
+
   useEffect(() => {
-    const intervalId = setInterval(() => {
-      const chatArray = JSON.parse(localStorage.getItem(`chat${groupId}`));
+    socket.on("getMsg", (data) => {
+      console.log(data);
+      dispatch(dataSliceActions.addMsg(data));
+    });
+  }, [socket]);
 
-      let lastMessageId;
-      if (chatArray && chatArray.length > 0) {
-        console.log("execute");
-        lastMessageId = chatArray[chatArray.length - 1].messageid;
-        console.log("lastmessage", chatArray[chatArray.length - 1]);
-      }
-
-      console.log(chatArray);
-      console.log("chatArray", lastMessageId);
-      axios
-        .get(
-          `http://localhost:4000/user/getmsg?lastmsgId=${lastMessageId}&groupid=${groupId}`,
-          {
-            headers: { Authorization: localStorage.getItem("token") },
-          }
-        )
-        .then((response) => {
-          console.log("array", response.data);
-
-          if (chatArray) {
-            console.log("chatarray", chatArray);
-            let mergedarray = chatArray.concat(response.data);
-            console.log("mergedarray", mergedarray);
-            localStorage.setItem(`chat${groupId}`, JSON.stringify(mergedarray));
-          } else {
-            localStorage.setItem(
-              `chat${groupId}`,
-              JSON.stringify(response.data)
-            );
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }, 2555000);
-    return () => {
-      clearInterval(intervalId);
-    };
-  }, [groupId]);
   useEffect(() => {
-    const chats = JSON.parse(localStorage.getItem(`chat${groupId}`));
+    // const chats = useSelector(state=>state.data.allmsg[groupId])//JSON.parse(localStorage.getItem(`chat${groupId}`));
+    const chats = allmessage;
+    console.log("chats", chats);
     if (chats) {
       const newarray = chats.map((current) => {
         const dates = new Date(current.createdAt);
@@ -127,49 +88,57 @@ const ChatWindow = () => {
       });
       setChatArray(newarray);
     }
-  }, [groupId]);
+  }, [groupId, allmessage]);
   const pageDetailsViewer = () => {
     setPageDetail(true);
   };
   const backbuttonHandler = () => {
     setPageDetail(false);
   };
-  const chatWindowCloseHandler=()=>{
-dispatch(dataSliceActions.deactivateChatWindow())
-  }
+  const chatWindowCloseHandler = () => {
+    dispatch(dataSliceActions.deactivateChatWindow());
+  };
   return (
     <div className={windowcss.chatBox}>
-     {chatWindowOpen && <div className={windowcss.chatBoxContainer}>
-        {!pageDetail ? (
-          <>
-            <div className={windowcss.chatProfile}>
-              <div className={windowcss.backbtn} onClick={chatWindowCloseHandler}>
-                <IoArrowBackCircleSharp
-                  className={windowcss.backbtnicon}
-                ></IoArrowBackCircleSharp>
+      {chatWindowOpen && (
+        <div className={windowcss.chatBoxContainer}>
+          {!pageDetail ? (
+            <>
+              <div className={windowcss.chatProfile}>
+                <div
+                  className={windowcss.backbtn}
+                  onClick={chatWindowCloseHandler}
+                >
+                  <IoArrowBackCircleSharp
+                    className={windowcss.backbtnicon}
+                  ></IoArrowBackCircleSharp>
+                </div>
+                <div
+                  className={windowcss.groupName}
+                  onClick={pageDetailsViewer}
+                >
+                  {groupName}
+                </div>
               </div>
-              <div className={windowcss.groupName} onClick={pageDetailsViewer}>
-                {groupName}
-              </div>
-            </div>
-            <div className={windowcss.chatWindow}>
-              <div className={windowcss.activeUser}>
-                <p>shivam5676 joined</p>
-              </div>
+              <div className={windowcss.chatWindow}>
+                <div className={windowcss.activeUser}>
+                  <p>shivam5676 joined</p>
+                </div>
 
-              {chatArray}
-            </div>
-            <div className={windowcss.chatInput}>
-              <input ref={messageref}></input>
-              <button className={windowcss.sendbtn} onClick={sendmsgHandler}>
-                send
-              </button>
-            </div>
-          </>
-        ) : (
-          <GroupDetails closeDetailPage={backbuttonHandler}></GroupDetails>
-        )}
-      </div>}
+                {chatArray}
+              </div>
+              <div className={windowcss.chatInput}>
+                <input ref={messageref}></input>
+                <button className={windowcss.sendbtn} onClick={sendmsgHandler}>
+                  send
+                </button>
+              </div>
+            </>
+          ) : (
+            <GroupDetails closeDetailPage={backbuttonHandler}></GroupDetails>
+          )}
+        </div>
+      )}
     </div>
   );
 };

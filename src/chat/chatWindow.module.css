@@ -46,9 +46,13 @@ padding:10px;
 }
 .groupName{
   padding: 10px;
+  width:200px;
   font-weight: bold;
   font-size: 1.2rem;
   color: aliceblue;
+  overflow: hidden;
+  text-wrap:nowrap;
+  text-overflow: ellipsis;
 }
 .activeUser {
   display: flex;

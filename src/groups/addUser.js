@@ -70,7 +70,7 @@ const AddUser = () => {
   return (
     <>
       <div className={addUserCss.inputfield}>
-        <input ref={searchref}></input>
+        <input ref={searchref} placeholder="hello"></input>
         <button onClick={searchuserHandler}>search</button>
       </div>
       {searchresult}

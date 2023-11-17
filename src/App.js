@@ -8,13 +8,21 @@ import HomePage from "./homePage/HomePage";
 import GroupList from "./groups/groupList";
 import AddGroup from "./groups/addGroup";
 import axios from "axios";
+import io from "socket.io-client"
 function App() {
   const [openAddGroup, setOpenAddGroup] = useState(false);
   const openAddGroupHandler = () => {
     setOpenAddGroup(true);
   };
   // const [isLoggedin,setIsLoggedIn] = useState(false);
-
+// useEffect(()=>{
+//   console.log("execute")
+// const socket=io("http://localhost:4000")
+// socket.emit("getmsg",{message:"hello"})
+// socket.on("recievemsg",(data)=>{
+//   console.log(data)
+// })
+// },[])
   const isLoggedin = localStorage.getItem("isLoggedIn");
   console.log(isLoggedin);
   return (

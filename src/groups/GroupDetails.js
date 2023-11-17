@@ -10,12 +10,17 @@ import { useState } from "react";
 import AddUser from "./addUser";
 import UserList from "./userList";
 const GroupDetails = (props) => {
-  const [searchresult, setSearchResult] = useState([]);
+  const [searchMode, setSearchMode] = useState(false);
   const backbuttonHandler = () => {
     props.closeDetailPage();
   };
-  
-  
+  const searchModeOnHandler = () => {
+    setSearchMode(true);
+  };
+  const searchModeOffHandler=()=>{
+    setSearchMode(false)
+  }
+
   return (
     <div className={groupdetailcss.pageDetails}>
       <div className={groupdetailcss.Backbtn}>
@@ -35,21 +40,21 @@ const GroupDetails = (props) => {
       </div>
       <div className={groupdetailcss.pageAction}>
         <div className={groupdetailcss.actionCard}>
-          <div className={groupdetailcss.membericon}>
+          <div className={groupdetailcss.membericon} onClick={searchModeOffHandler}>
             <PiUserListFill className={groupdetailcss.icon}></PiUserListFill>
             <p>Users</p>
           </div>
-          <div className={groupdetailcss.membericon}>
+          <div
+            className={groupdetailcss.membericon}
+            onClick={searchModeOnHandler}
+          >
             <MdPersonSearch className={groupdetailcss.icon}></MdPersonSearch>
             <p>Add Users</p>
           </div>
         </div>
       </div>
       <div className={groupdetailcss.pageMemberList}>
-     
-        <AddUser></AddUser>
-        <UserList></UserList>
-       
+        {searchMode ? <AddUser></AddUser> : <UserList></UserList>}
       </div>
     </div>
   );
