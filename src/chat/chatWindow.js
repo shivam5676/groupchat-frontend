@@ -13,7 +13,7 @@ const ChatWindow = () => {
   const messageref = useRef();
   const [pageDetail, setPageDetail] = useState(false);
 
-  const [chatArray, setChatArray] = useState("no data is present");
+  const [chatArray, setChatArray] = useState([]);
   const groupId = useSelector((state) => {
     return state.data.groupId;
   });
@@ -64,22 +64,32 @@ const ChatWindow = () => {
           const dates = new Date(current.createdAt);
 
           return (
-            <div className={windowcss.sendermsg} key={current.messageid}>
+            <div
+              className={windowcss.sendermsg}
+              key={dates + current.messageid}
+            >
               <div className={windowcss.sendermsgLeft}>
                 <div className={windowcss.senderMessageBox}>
+                
+
                   <p>{current.text} </p>
+
                   <p className={windowcss.messagetime}>{formattedTime}</p>
                 </div>
               </div>
             </div>
           );
         } else {
-          console.log("createdAt");
-
           return (
-            <div className={windowcss.recievermsg} key={current.messageid}>
+            <div
+              className={windowcss.recievermsg}
+              key={dates + current.messageid}
+            >
               <div className={windowcss.recieverMessageBox}>
-                <p>{current.text} </p>
+                <div className={windowcss.recieverdetails}>
+                  <p>{current.user.name}</p> <p>{current.user.mobile}</p>
+                </div>
+                <p className={windowcss.usermessage}>{current.text} </p>
                 <p className={windowcss.messagetime}>{formattedTime}</p>
               </div>
             </div>
@@ -125,7 +135,7 @@ const ChatWindow = () => {
                   <p>shivam5676 joined</p>
                 </div>
 
-                {chatArray}
+                {allmessage ? chatArray : "no message"}
               </div>
               <div className={windowcss.chatInput}>
                 <input ref={messageref}></input>

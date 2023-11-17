@@ -3,35 +3,35 @@ import SignUp from "./signup/signup";
 import Login from "./login/login";
 import appcss from "../src/app.module.css";
 import { Route, Routes } from "react-router-dom";
-import ChatWindow from "./chat/chatWindow";
+
 import HomePage from "./homePage/HomePage";
-import GroupList from "./groups/groupList";
+
 import AddGroup from "./groups/addGroup";
-import axios from "axios";
-import io from "socket.io-client"
+
+import { useDispatch, useSelector } from "react-redux";
+import { dataSliceActions } from "./store/data";
 function App() {
   const [openAddGroup, setOpenAddGroup] = useState(false);
+  const dispatch=useDispatch()
   const openAddGroupHandler = () => {
     setOpenAddGroup(true);
-  };
-  // const [isLoggedin,setIsLoggedIn] = useState(false);
-// useEffect(()=>{
-//   console.log("execute")
-// const socket=io("http://localhost:4000")
-// socket.emit("getmsg",{message:"hello"})
-// socket.on("recievemsg",(data)=>{
-//   console.log(data)
-// })
-// },[])
-  const isLoggedin = localStorage.getItem("isLoggedIn");
-  console.log(isLoggedin);
+  }; 
+  const isLoggedin=useSelector(state=>state.data.isLoggedIn);
+  console.log("loggedstate",isLoggedin)
+  useEffect(()=>{
+   if (localStorage.getItem("token")){
+    dispatch(dataSliceActions.login())
+   }
+  },[])
+ 
   return (
     <div className={appcss.containers}>
       <Routes>
         {isLoggedin ? (
           <>
           <Route path ="/creategroup" element={<AddGroup></AddGroup>}></Route>
-            <Route path="/" element={<HomePage></HomePage>}></Route>
+            <Route path="*" element={<HomePage></HomePage>}></Route>
+           
           </>
         ) : (
           <>

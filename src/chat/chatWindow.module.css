@@ -76,8 +76,8 @@ padding:10px;
 }
 .senderMessageBox  {
   display:flex;
-  
-  
+  flex-direction: column;
+ 
   width:fit-content;
   background-color: rgb(173, 46, 173);
   color: aliceblue;
@@ -86,6 +86,7 @@ padding:10px;
   border-radius: 10px 10px 0px 10px;
   outline: none;
 }
+
 .recievermsg {
   display: flex;
   justify-content: left;
@@ -93,6 +94,7 @@ padding:10px;
 }
 .recieverMessageBox  {
   display:flex;
+  flex-direction: column;
   background-color: lightseagreen;
   color: aliceblue;
   padding: 8px 10px;
@@ -101,10 +103,25 @@ padding:10px;
   /* flex-basis:50%; */
   outline: none;
 }
+.recieverdetails{
+  display:flex;
+  justify-content: space-between;
+ font-size: 0.7rem;
+  border-bottom: 1px solid black;
+  padding:4px 2px;
+  background-color: rgb(23, 112, 108);
+}
+.recieverdetails>p{
+  margin:0px 5px;
+  width:60px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-wrap: nowrap;
+}
 .messagetime{
   display: flex;
   
- /* justify-content: end; */
+ justify-content: end;
   align-items: end;
   font-size: .75rem;
   margin-left:10px;
@@ -113,7 +130,9 @@ padding:10px;
   /* top:8px; */
 }
 
-
+.usermessage{
+  margin:3px 15px
+}
 .chatInput {
   display: flex;
 

@@ -4,8 +4,11 @@ import logincss from "../login/login.module.css";
 import { SiMinutemailer } from "react-icons/si";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { NavLink, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { dataSliceActions } from "../store/data";
 const Login = () => {
-  const navigate=useNavigate()
+  const navigate=useNavigate() 
+  const dispatch=useDispatch();
   const emailref = useRef();
   const passwordref = useRef();
   const logindetailHandler = () => {
@@ -18,8 +21,10 @@ const Login = () => {
       .then((res) => {
         console.log(res);
         localStorage.setItem("token",res.data.token)
-        localStorage.setItem("isLoggedIn",true)
-        navigate("/")
+        localStorage.setItem("isLoggedIn",true);
+       dispatch(dataSliceActions.login())
+
+        navigate("/home")
       })
       .catch((err) => {
         console.log(err);
