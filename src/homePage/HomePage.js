@@ -4,12 +4,16 @@ import homepagecss from "./HomePage.module.css";
 import ChatWindow from "../chat/chatWindow";
 import GroupList from "../groups/groupList";
 import AddGroup from "../groups/addGroup";
-import { MdOutlineGroupAdd } from "react-icons/md";
+import { MdEmojiTransportation, MdOutlineGroupAdd } from "react-icons/md";
 import { AiFillSetting } from "react-icons/ai";
 import { FiLogOut } from "react-icons/fi";
 import SidePanel from "../sidePanel/sidepanel";
+import socket from "../socket/socket";
+import { useDispatch } from "react-redux";
+import data, { dataSliceActions } from "../store/data";
 const HomePage = () => {
   const [openAddGroup, setOpenAddGroup] = useState(false);
+  const dispatch = useDispatch();
   useEffect(() => {
     axios
       .get("http://localhost:4000/user/verify", {
@@ -23,9 +27,18 @@ const HomePage = () => {
         console.log(err);
       });
   }, []);
-  const openAddGroupHandler = () => {
-    setOpenAddGroup(true);
-  };
+  useEffect(() => {
+    axios
+      .get("http://localhost:4000/user/fetchgroup", {
+        headers: { Authorization: localStorage.getItem("token") },
+      })
+      .then((response) => {
+        console.log(response.data);
+         response.data.forEach((current) => {
+          dispatch(dataSliceActions.addGroupList(current));
+        });
+      });
+  }, []);
 
   return (
     <div className={homepagecss.main}>
@@ -39,7 +52,6 @@ const HomePage = () => {
             <GroupList></GroupList>
             <ChatWindow></ChatWindow>
           </div>
-        
         </div>
       </div>
     </div>

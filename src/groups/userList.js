@@ -5,13 +5,14 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { HiMiniShieldCheck } from "react-icons/hi2"
+import { toast } from "react-toastify";
 const UserList = () => {
   const [totalUser, settotalUser] = useState([]);
   const currentgroupId = useSelector((state) => {
     return state.data.groupId;
   });
   const addAdminHandler = (userId) => {
-    console.log(userId);
+   
     axios
       .get(
         `http://localhost:4000/user/makeAdmin?userid=${userId}&groupid=${currentgroupId}`,
@@ -21,12 +22,12 @@ const UserList = () => {
         }
       )
       .then((result) => {
-        console.log(result);
+        toast.success("new admin added...plz refresh page to see changes")
       })
-      .catch((err) => console.log(err));
+      .catch((err) => toast.error(err.response.data.msg));
   };
   const deleteUserHandler = (userId) => {
-    console.log(userId);
+ 
     axios
       .get(
         `http://localhost:4000/user/deleteUser?userid=${userId}&groupid=${currentgroupId}`,
@@ -36,9 +37,10 @@ const UserList = () => {
         }
       )
       .then((result) => {
-        console.log(result);
+        
+        toast("user deleted successfully...refresh page and see updated result")
       })
-      .catch((err) => console.log(err));
+      .catch((err) => toast.error(err.response.data.msg));
   };
   const groupId = useSelector((state) => {
     return state.data.groupId;
@@ -50,7 +52,7 @@ const UserList = () => {
       })
       .then((response) => {
         const newArray = response.data.map((current) => {
-          console.log(current.isAdmin);
+          
           return (
             <div className={userListCss.memberCard} key={current.userId}>
               <div className={userListCss.memberDetails}>
@@ -75,12 +77,12 @@ const UserList = () => {
                   <MdCloudDone className={userListCss.icon}></MdCloudDone>
                   admin
                 </div>:<div className={userListCss.adminmsg}>admin</div>}
-                <div className={userListCss.actionIcon}>
+                <div className={userListCss.actionIcon} onClick={() => {
+                      deleteUserHandler(current.userId);
+                    }}>
                   <FcDeleteDatabase
                     className={userListCss.icon}
-                    onClick={() => {
-                      deleteUserHandler(current.userId);
-                    }}
+                    
                   ></FcDeleteDatabase>{" "}
                   user
                 </div>

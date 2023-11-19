@@ -8,9 +8,9 @@
 
 .container {
   display: flex;
-  background-color: yellow;
+
   height: 60vh;
-  width: 60vw;
+  width: 70vw;
 }
 .leftContainer {
   display: flex;
@@ -36,7 +36,6 @@
   align-items: center;
   color: antiquewhite;
   height: 100%;
-  
 }
 
 .rightContainer {
@@ -49,9 +48,10 @@
 }
 .frame {
   display: flex;
-  height: 80%;
+
+  padding: 10px;
   width: 80%;
-  color:white;
+  color: white;
   border: 2px solid white;
   align-items: center;
   flex-direction: column;
@@ -65,7 +65,7 @@
   margin-top: 20px;
 }
 .signInTitle {
-  font-size:2rem;
+  font-size: 2rem;
   color: white;
   font-weight: bolder;
 
@@ -76,7 +76,7 @@
   display: flex;
   width: 80%;
   border: 1px solid white;
-  margin-bottom:20px;
+  margin-bottom: 20px;
 }
 .emailInput > input,
 .passwordInput > input {
@@ -105,32 +105,49 @@
   left: 5px;
   color: white;
 }
-.button{
-  display:flex;
-  width:100%;
+.button {
+  display: flex;
+  width: 100%;
   justify-content: center;
-
 }
-.loginbutton{
-  width:80%;
+.loginbutton {
+  width: 80%;
   height: 30px;
-  color:white;
+  color: white;
   /* font-weight: bold; */
   font-size: 1.05rem;
-  background-image: linear-gradient(to right, rgb(194, 43, 194) , yellow);
+  background-image: linear-gradient(to right, rgb(194, 43, 194), yellow);
 }
-.forgetPassword{
-  display:flex;
-  width:80%;
+.forgetPassword {
+  display: flex;
+  width: 80%;
   justify-content: right;
-  margin-bottom:10px;
+  margin-bottom: 10px;
 }
-.forgetPassword>a{
-color:white;
+.forgetPassword > a {
+  color: white;
 }
-.signupbutton{
-  width:60%;
-  height:30px;
-  color:white;
-  background-image: linear-gradient(to left, rgb(194, 43, 194) , yellow);
+.signupbutton {
+  width: 60%;
+  height: 30px;
+  color: white;
+  background-image: linear-gradient(to left, rgb(194, 43, 194), yellow);
+}
+
+@media (max-width: 700px) {
+  .container {
+    flex-direction: column;
+    height: 65vh;
+
+    flex-basis: 500px;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .leftContainer {
+    display: none;
+  }
+  .rightContainer{
+    width:280px
+  }
 }

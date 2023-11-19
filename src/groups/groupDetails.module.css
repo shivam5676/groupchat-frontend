@@ -142,3 +142,22 @@ padding-bottom: 5px;
   margin:0px 5px;
   border-radius: 10px 0px 10px 0px;
 }
+
+.pageTitle{
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin-bottom: 5px;
+  width:165px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-wrap: nowrap;
+}
+.pageCreatedBy{
+  margin-bottom: 5px;
+  font-weight: bold;
+  font-size: .9rem;
+  width:165px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-wrap: nowrap;
+}

@@ -1,11 +1,14 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import axios from "axios";
 import signupcss from "./signup.module.css";
 import { SiMinutemailer } from "react-icons/si";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { NavLink, useNavigate } from "react-router-dom";
 import { MdOutlineDriveFileRenameOutline } from "react-icons/md";
+import { ProgressBar } from "react-loader-spinner";
+import { toast } from "react-toastify";
 const SignUp = () => {
+  const [loader,setloader]=useState(false)
   const navigate=useNavigate();
   const emailref = useRef();
   const passwordref = useRef();
@@ -25,18 +28,25 @@ const SignUp = () => {
       mobile: mobileValue,
     };
     console.log(myObj);
-    axios
+    setloader(true)
+    setTimeout(()=>{
+      axios
       .post("http://localhost:4000/user/savedata", myObj)
       .then((response) => {
-        console.log(response);
+        
+        toast.success(response.data.msg)
         setTimeout(() => {
           navigate("/login")
-        }, 3000);
+        }, 2000);
 
       })
       .catch((err) => {
-        console.log(err);
+        
+        setloader(false)
+        toast.error(err.response.data.msg)
       });
+    },1000)
+    
   };
   const loginPageRedirecter=()=>{
     return navigate("/login")
@@ -89,9 +99,19 @@ const SignUp = () => {
             </div>
 
             <div className={signupcss.button}>
-              <button className={signupcss.loginbutton} onClick={signupHandler}>
+           { loader ? (
+                <ProgressBar
+                  height="50"
+                  width="70"
+                  ariaLabel="progress-bar-loading"
+                  wrapperStyle={{}}
+                  wrapperClass="progress-bar-wrapper"
+                  borderColor="#F4442E"
+                  barColor="#51E5FF"
+                />
+              )  :<button className={signupcss.loginbutton} onClick={signupHandler}>
                 SignUp
-              </button>
+              </button>}
             </div>
             <h3>or</h3>
             <div className={signupcss.button}>

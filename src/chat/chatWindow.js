@@ -1,15 +1,19 @@
 import { useEffect, useRef, useState } from "react";
 import windowcss from "./chatWindow.module.css";
-import axios from "axios";
+
 import { useDispatch, useSelector } from "react-redux";
 import { IoArrowBackCircleSharp } from "react-icons/io5";
-import { FaArrowCircleLeft } from "react-icons/fa";
+
 import GroupDetails from "../groups/GroupDetails";
 import { dataSliceActions } from "../store/data";
 import socket from "../socket/socket";
-// import io from "socket.io-client";
+
+import { BsFillSendFill } from "react-icons/bs";
+
 const ChatWindow = () => {
+  const chatWindowRef = useRef(null);
   const dispatch = useDispatch();
+
   const messageref = useRef();
   const [pageDetail, setPageDetail] = useState(false);
 
@@ -27,28 +31,21 @@ const ChatWindow = () => {
   const chatWindowOpen = useSelector((state) => {
     return state.data.isWindowOpen;
   });
-  console.log(groupId);
 
   const sendmsgHandler = () => {
     const messageData = messageref.current.value;
-    console.log(messageData);
 
     socket.emit("sendmsg", { message: messageData, groupid: groupId });
   };
-
   useEffect(() => {
-    socket.on("getMsg", (data) => {
-      console.log(data);
-      dispatch(dataSliceActions.addMsg(data));
-    });
+    socket.emit("join-room", groupId);
   }, [socket]);
 
   useEffect(() => {
-    // const chats = useSelector(state=>state.data.allmsg[groupId])//JSON.parse(localStorage.getItem(`chat${groupId}`));
     const chats = allmessage;
-    console.log("chats", chats);
+
     if (chats) {
-      const newarray = chats.map((current) => {
+      const newarray = chats.map((current, index) => {
         const dates = new Date(current.createdAt);
 
         // Get hours and minutes from the Date object
@@ -64,14 +61,9 @@ const ChatWindow = () => {
           const dates = new Date(current.createdAt);
 
           return (
-            <div
-              className={windowcss.sendermsg}
-              key={dates + current.messageid}
-            >
+            <div className={windowcss.sendermsg} key={current.messageid}>
               <div className={windowcss.sendermsgLeft}>
                 <div className={windowcss.senderMessageBox}>
-                
-
                   <p>{current.text} </p>
 
                   <p className={windowcss.messagetime}>{formattedTime}</p>
@@ -81,10 +73,7 @@ const ChatWindow = () => {
           );
         } else {
           return (
-            <div
-              className={windowcss.recievermsg}
-              key={dates + current.messageid}
-            >
+            <div className={windowcss.recievermsg} key={current.messageid}>
               <div className={windowcss.recieverMessageBox}>
                 <div className={windowcss.recieverdetails}>
                   <p>{current.user.name}</p> <p>{current.user.mobile}</p>
@@ -108,6 +97,12 @@ const ChatWindow = () => {
   const chatWindowCloseHandler = () => {
     dispatch(dataSliceActions.deactivateChatWindow());
   };
+  useEffect(() => {
+    // Scroll to the bottom of the chat window when chatArray is updated
+    if (chatWindowRef.current) {
+      chatWindowRef.current.scrollTop = chatWindowRef.current.scrollHeight;
+    }
+  }, [chatArray]);
   return (
     <div className={windowcss.chatBox}>
       {chatWindowOpen && (
@@ -127,21 +122,28 @@ const ChatWindow = () => {
                   className={windowcss.groupName}
                   onClick={pageDetailsViewer}
                 >
-                  {groupName}
+                  {"groupName"}
+                  <div className={windowcss.activeUser}>
+                  <p>online : shivam5676 </p>
+                </div>
                 </div>
               </div>
-              <div className={windowcss.chatWindow}>
-                <div className={windowcss.activeUser}>
-                  <p>shivam5676 joined</p>
-                </div>
 
-                {allmessage ? chatArray : "no message"}
+              <div className={windowcss.chatWindow} ref={chatWindowRef}>
+                {/* <div className={windowcss.activeUser}>
+                  <p>shivam5676 joined</p>
+                </div> */}
+
+                {allmessage ? chatArray : "no message found send first msg"}
               </div>
+
               <div className={windowcss.chatInput}>
                 <input ref={messageref}></input>
-                <button className={windowcss.sendbtn} onClick={sendmsgHandler}>
-                  send
-                </button>
+
+                <BsFillSendFill
+                  className={windowcss.sendbtn}
+                  onClick={sendmsgHandler}
+                ></BsFillSendFill>
               </div>
             </>
           ) : (

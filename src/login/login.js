@@ -1,38 +1,45 @@
 import axios from "axios";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import logincss from "../login/login.module.css";
 import { SiMinutemailer } from "react-icons/si";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { dataSliceActions } from "../store/data";
+import { ProgressBar } from "react-loader-spinner";
+import { toast } from "react-toastify";
 const Login = () => {
-  const navigate=useNavigate() 
-  const dispatch=useDispatch();
+  const [loader, setLoader] = useState(false);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const emailref = useRef();
   const passwordref = useRef();
   const logindetailHandler = () => {
+    setLoader(true);
     const myobj = {
       email: emailref.current.value,
       password: passwordref.current.value,
     };
-    axios
-      .post("http://localhost:4000/user/login", myobj)
-      .then((res) => {
-        console.log(res);
-        localStorage.setItem("token",res.data.token)
-        localStorage.setItem("isLoggedIn",true);
-       dispatch(dataSliceActions.login())
-
-        navigate("/home")
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    setTimeout(() => {
+      axios
+        .post("http://localhost:4000/user/login", myobj)
+        .then((res) => {
+          
+          localStorage.setItem("token", res.data.token);
+          localStorage.setItem("isLoggedIn", true);
+          dispatch(dataSliceActions.login());
+          navigate("/home");
+        })
+        .catch((err) => {
+       
+          setLoader(false);
+          toast.error(err.response.data.msg)
+        });
+    }, 1000);
   };
-  const signuppageRediecter=()=>{
-navigate("/signup")
-  }
+  const signuppageRediecter = () => {
+    navigate("/signup");
+  };
   return (
     <div className={logincss.loginmain}>
       {" "}
@@ -63,17 +70,36 @@ navigate("/signup")
             <div className={logincss.forgetPassword}>
               <NavLink to="/forget">forget password</NavLink>
             </div>
+
             <div className={logincss.button}>
-              <button
-                className={logincss.loginbutton}
-                onClick={logindetailHandler}
-              >
-                Signin
-              </button>
+              {" "}
+              {loader ? (
+                <ProgressBar
+                  height="50"
+                  width="80"
+                  ariaLabel="progress-bar-loading"
+                  wrapperStyle={{}}
+                  wrapperClass="progress-bar-wrapper"
+                  borderColor="#F4442E"
+                  barColor="#51E5FF"
+                />
+              ) : (
+                <button
+                  className={logincss.loginbutton}
+                  onClick={logindetailHandler}
+                >
+                  signIn
+                </button>
+              )}
             </div>
             <h3>or</h3>
             <div className={logincss.button}>
-              <button className={logincss.signupbutton} onClick={signuppageRediecter}>SignUp</button>
+              <button
+                className={logincss.signupbutton}
+                onClick={signuppageRediecter}
+              >
+                SignUp
+              </button>
             </div>
           </div>
         </div>

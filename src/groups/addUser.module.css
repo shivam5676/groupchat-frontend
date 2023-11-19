@@ -79,3 +79,10 @@
     border-radius: 10px 0px 10px 0px;
   }
   
+  .glass{
+    height:100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+  }

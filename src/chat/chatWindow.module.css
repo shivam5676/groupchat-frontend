@@ -45,6 +45,9 @@ padding:10px;
   color: antiquewhite;
 }
 .groupName{
+  display:flex;
+  flex-direction: column;
+ 
   padding: 10px;
   width:200px;
   font-weight: bold;
@@ -54,19 +57,27 @@ padding:10px;
   text-wrap:nowrap;
   text-overflow: ellipsis;
 }
-.activeUser {
-  display: flex;
-  justify-content: center;
-}
+
 .activeUser > p {
-  background-color: aliceblue;
-  padding: 5px;
+  
+
+  padding: 5px 5px 5px 0px;
   border-radius: 7px;
+  width:170px;
+  height:10px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-wrap:nowrap;
+  color:black;
+  font-weight: 300;
+  font-size: .85rem;
+  margin-top:5px;
+  color: antiquewhite;
 }
 
 .sendermsg {
   display: flex;
-  /* width:50%; */
+  
   justify-content: right;
 }
 .sendermsgLeft{
@@ -145,10 +156,14 @@ padding:10px;
   border-radius: 10px;
 }
 .sendbtn {
-  height: 40px;
-  width: 70px;
-  border-radius: 10px;
-  margin-right: 10px;
+  height: 30px;
+  width: 30px;
+  border-radius: 50px;
+  margin-right: 20px;
+  background-color:rgb(71, 105, 168);
+  padding:10px;
+  color:aliceblue
+
 }
 .chatWindow::-webkit-scrollbar {
   display: none;
@@ -193,4 +208,10 @@ padding:10px;
   border:1px solid black;
   height:100%;
   border-radius:0px 0px 50px 0px;
+}
+
+.loading{
+display:flex;
+justify-content: center;
+margin:30px;
 }

@@ -8,7 +8,8 @@
 
 .container {
   display: flex;
-  background-color: yellow;
+  justify-content: center;
+  align-items: center;
   height: 60vh;
   width: 60vw;
 }
@@ -21,7 +22,6 @@
   /* justify-content: space-between; */
 }
 .logoContainer {
-
   display: flex;
   justify-content: right;
 }
@@ -36,26 +36,26 @@
 .welcome {
   display: flex;
   flex-direction: column;
-  justify-content:space-between;
+  justify-content: space-between;
   align-items: center;
   color: antiquewhite;
   height: 100%;
 }
-.paragraph{
-    position:relative;
-    bottom:35px;
-    padding:10px;
+.paragraph {
+  position: relative;
+  bottom: 35px;
+  padding: 10px;
 }
-.paragraph>ul>li{
-    font-weight: bold;
-    margin-top:5px;
+.paragraph > ul > li {
+  font-weight: bold;
+  margin-top: 5px;
 }
 
-.companyname{
-    position: relative;
-    bottom:25px;
-    font-size: 1.1rem;
-    font-weight:500;
+.companyname {
+  position: relative;
+  bottom: 25px;
+  font-size: 1.1rem;
+  font-weight: 500;
 }
 .rightContainer {
   display: flex;
@@ -63,12 +63,13 @@
   justify-content: center;
   align-items: center;
   height: 100%;
+
   flex: 1;
   order: -1;
 }
 .frame {
   display: flex;
-  height: 90%;
+  height: 95%;
   width: 80%;
   color: white;
   border: 2px solid white;
@@ -153,12 +154,21 @@
   background-image: linear-gradient(to left, rgb(194, 43, 194), yellow);
 }
 
-@media (max-width:720px){
-    .leftContainer{
-        display: none;
-    }
-    .container{
-        height:60vh;
-        width:80vw;
-    }
+@media (max-width: 720px) {
+  .leftContainer {
+    display: none;
+  }
+  .container {
+    flex-basis: 500px;
+    justify-content: center;
+    align-items: center;
+  }
+  .rightContainer {
+    height: max-content;
+
+    padding: 20px;
+  }
+  .frame {
+    padding: 10px 0px;
+  }
 }
