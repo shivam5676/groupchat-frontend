@@ -2,21 +2,20 @@ import { FaArrowCircleLeft } from "react-icons/fa";
 import groupdetailcss from "./groupDetails.module.css";
 import { useEffect } from "react";
 import { PiUserListFill } from "react-icons/pi";
-import { MdCloudDone, MdPersonSearch } from "react-icons/md";
-import { GrUserAdmin } from "react-icons/gr";
-import { FcDeleteDatabase } from "react-icons/fc";
+import { MdPersonSearch } from "react-icons/md";
+
 import axios from "axios";
 import { useState } from "react";
 import AddUser from "./addUser";
 import UserList from "./userList";
 import { useDispatch, useSelector } from "react-redux";
-import { dataSliceActions } from "../store/data";
+
 const GroupDetails = (props) => {
-  const dispatch=useDispatch()
+  const dispatch = useDispatch();
   const [searchMode, setSearchMode] = useState(false);
- 
-  const[GroupDetails,setGroupDetails]=useState(undefined)
-  console.log(GroupDetails)
+
+  const [GroupDetails, setGroupDetails] = useState(undefined);
+  console.log(GroupDetails);
   const groupId = useSelector((state) => state.data.groupId);
   const backbuttonHandler = () => {
     props.closeDetailPage();
@@ -34,9 +33,8 @@ const GroupDetails = (props) => {
         headers: { Authorization: localStorage.getItem("token") },
       })
       .then((result) => {
-        console.log(result)
-        setGroupDetails(result.data)
-      
+       
+        setGroupDetails(result.data);
       })
       .catch((err) => {
         console.log(err);
@@ -54,11 +52,25 @@ const GroupDetails = (props) => {
       <div className={groupdetailcss.pageData}>
         <div className={groupdetailcss.pageimg}></div>
 
-        {GroupDetails&&<div className={groupdetailcss.pageinfo}>
-          <div className={groupdetailcss.pageTitle}>{GroupDetails.groupName}</div>
-          <div className={groupdetailcss.pageCreatedBy}>createdBy : {GroupDetails.users[0].name}</div>
-          <div className={groupdetailcss.pageCreatedAt}> on: {new Date(GroupDetails.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</div>
-        </div>}
+        {GroupDetails && (
+          <div className={groupdetailcss.pageinfo}>
+            <div className={groupdetailcss.pageTitle}>
+              {GroupDetails.groupName}
+            </div>
+            <div className={groupdetailcss.pageCreatedBy}>
+              createdBy : {GroupDetails.users[0].name}
+            </div>
+            <div className={groupdetailcss.pageCreatedAt}>
+              {" "}
+              on:{" "}
+              {new Date(GroupDetails.createdAt).toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })}
+            </div>
+          </div>
+        )}
       </div>
       <div className={groupdetailcss.pageAction}>
         <div className={groupdetailcss.actionCard}>

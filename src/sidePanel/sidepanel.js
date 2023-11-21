@@ -5,6 +5,7 @@ import { FiLogOut } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { dataSliceActions } from "../store/data";
+import socket from "../socket/socket";
 
 const SidePanel = () => {
   const dispatch=useDispatch()
@@ -16,6 +17,8 @@ return navigate("/creategroup")
 dispatch(dataSliceActions.reset());
 localStorage.removeItem("token")
 localStorage.removeItem("isLoggedIn")
+localStorage.removeItem("myId")
+socket.disconnect()
   }
   return (
     <div className={sidepanelcss.sidepanel}>

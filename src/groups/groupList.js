@@ -31,59 +31,58 @@ const GroupList = (props) => {
       dispatch(dataSliceActions.addMsg(data));
     });
   }, [socket]);
+
   useEffect(() => {
-    setTimeout(() => {
-      const newArray = grouplist.map((current) => {
-        socket.emit("join-room", current[0].id);
-        const currentGrp = AllGroup[current[0].id];
-        let lastmsgId;
-        let lastmessage;
-        if (currentGrp && currentGrp.length > 0) {
-          lastmsgId = currentGrp[currentGrp.length - 1].messageid;
-          lastmessage = `${currentGrp[currentGrp.length - 1].user.name} : ${
-            currentGrp[currentGrp.length - 1].text
-          }`;
-        } else {
-          lastmsgId = null;
-          lastmessage = "No messages yet";
-        }
-        axios
-          .get(
-            `http://localhost:4000/user/getmsg?groupid=${current[0].id}&lastmsgId=${lastmsgId}`,
-            {
-              headers: { Authorization: localStorage.getItem("token") },
-            }
-          )
-          .then((response) => {
-            response.data.forEach((item) => {
-              dispatch(dataSliceActions.addMsg(item));
-            });
-          })
-          .catch((err) => {
-            setLoader(false);
+    const newArray = grouplist.map((current) => {
+      // socket.emit("join-room", current[0].id);
+      const currentGrp = AllGroup[current[0].id];
+      let lastmsgId;
+      let lastmessage;
+      if (currentGrp && currentGrp.length > 0) {
+        lastmsgId = currentGrp[currentGrp.length - 1].messageid;
+        lastmessage = `${currentGrp[currentGrp.length - 1].user.name} : ${
+          currentGrp[currentGrp.length - 1].text
+        }`;
+      } else {
+        lastmsgId = null;
+        lastmessage = "No messages yet";
+      }
+      axios
+        .get(
+          `http://localhost:4000/user/getmsg?groupid=${current[0].id}&lastmsgId=${lastmsgId}`,
+          {
+            headers: { Authorization: localStorage.getItem("token") },
+          }
+        )
+        .then((response) => {
+          response.data.forEach((item) => {
+            dispatch(dataSliceActions.addMsg(item));
           });
-        //display current group card
-        return (
-          <div
-            className={`${groupListcss.item} ${
-              isActive === current[0].id ? groupListcss.active : ""
-            }`}
-            key={current[0].id}
-            onClick={() => groupHandler(current[0])}
-          >
-            <div className={groupListcss.profileImg}></div>
-            <div className={groupListcss.groupInfo}>
-              <div className={groupListcss.groupName}>
-                <p>{current[0].groupName}</p>
-              </div>
-              <div className={groupListcss.lastMsg}>{lastmessage}</div>
+        })
+        .catch((err) => {
+          setLoader(false);
+        });
+      //display current group card
+      return (
+        <div
+          className={`${groupListcss.item} ${
+            isActive === current[0].id ? groupListcss.active : ""
+          }`}
+          key={current[0].id}
+          onClick={() => groupHandler(current[0])}
+        >
+          <div className={groupListcss.profileImg}></div>
+          <div className={groupListcss.groupInfo}>
+            <div className={groupListcss.groupName}>
+              <p>{current[0].groupName}</p>
             </div>
+            <div className={groupListcss.lastMsg}>{lastmessage}</div>
           </div>
-        );
-      });
-      setGroupListData(newArray);
-      setLoader(false);
-    }, 1500);
+        </div>
+      );
+    });
+    setGroupListData(newArray);
+    setLoader(false);
   }, [grouplist]);
 
   return (

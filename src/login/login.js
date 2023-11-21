@@ -8,33 +8,35 @@ import { useDispatch } from "react-redux";
 import { dataSliceActions } from "../store/data";
 import { ProgressBar } from "react-loader-spinner";
 import { toast } from "react-toastify";
+import socket, { updateSocketConnection } from "../socket/socket";
 const Login = () => {
   const [loader, setLoader] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const emailref = useRef();
   const passwordref = useRef();
-  const logindetailHandler = () => {
+  const logindetailHandler = async () => {
     setLoader(true);
     const myobj = {
       email: emailref.current.value,
       password: passwordref.current.value,
     };
-    setTimeout(() => {
-      axios
-        .post("http://localhost:4000/user/login", myobj)
-        .then((res) => {
-          
-          localStorage.setItem("token", res.data.token);
-          localStorage.setItem("isLoggedIn", true);
-          dispatch(dataSliceActions.login());
-          navigate("/home");
-        })
-        .catch((err) => {
-       
-          setLoader(false);
-          toast.error(err.response.data.msg)
-        });
+
+    setTimeout(async() => {
+      try {
+        const res = await axios.post("http://localhost:4000/user/login", myobj);
+
+        localStorage.setItem("token", res.data.token);
+        localStorage.setItem("isLoggedIn", true);
+        dispatch(dataSliceActions.login());
+        updateSocketConnection(res.data.token);
+
+        await new Promise((resolve) => socket.once("connect", resolve));
+        navigate("/home");
+      } catch (err) {
+        setLoader(false);
+        toast.error(err.response.data.msg);
+      }
     }, 1000);
   };
   const signuppageRediecter = () => {
@@ -80,7 +82,7 @@ const Login = () => {
                   ariaLabel="progress-bar-loading"
                   wrapperStyle={{}}
                   wrapperClass="progress-bar-wrapper"
-                  borderColor="#F4442E"
+                  borderColor="#51E5FF"
                   barColor="#51E5FF"
                 />
               ) : (

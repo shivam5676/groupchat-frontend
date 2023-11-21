@@ -3,17 +3,26 @@ import { useEffect, useState } from "react";
 import homepagecss from "./HomePage.module.css";
 import ChatWindow from "../chat/chatWindow";
 import GroupList from "../groups/groupList";
-import AddGroup from "../groups/addGroup";
-import { MdEmojiTransportation, MdOutlineGroupAdd } from "react-icons/md";
-import { AiFillSetting } from "react-icons/ai";
-import { FiLogOut } from "react-icons/fi";
+
 import SidePanel from "../sidePanel/sidepanel";
+
+import { useDispatch, useSelector } from "react-redux";
+import { dataSliceActions } from "../store/data";
 import socket from "../socket/socket";
-import { useDispatch } from "react-redux";
-import data, { dataSliceActions } from "../store/data";
 const HomePage = () => {
   const [openAddGroup, setOpenAddGroup] = useState(false);
   const dispatch = useDispatch();
+  const grouplists = useSelector((state) => state.data.groupList);
+  const handlesocketlogic = () => {
+    
+    grouplists.forEach((current) => {
+      console.log("join",current[0].id);
+      socket.emit("join-room", current[0].id);
+    });
+  };
+  useEffect(() => {
+    handlesocketlogic();
+  }, [grouplists]);
   useEffect(() => {
     axios
       .get("http://localhost:4000/user/verify", {
@@ -27,14 +36,14 @@ const HomePage = () => {
         console.log(err);
       });
   }, []);
+  
   useEffect(() => {
     axios
       .get("http://localhost:4000/user/fetchgroup", {
         headers: { Authorization: localStorage.getItem("token") },
       })
       .then((response) => {
-        console.log(response.data);
-         response.data.forEach((current) => {
+        response.data.forEach((current) => {
           dispatch(dataSliceActions.addGroupList(current));
         });
       });

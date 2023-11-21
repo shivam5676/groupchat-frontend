@@ -21,6 +21,7 @@ const ChatWindow = () => {
   const groupId = useSelector((state) => {
     return state.data.groupId;
   });
+ 
   const allmessage = useSelector((state) => {
     return state.data.Allmsg[groupId];
   });
@@ -36,11 +37,23 @@ const ChatWindow = () => {
     const messageData = messageref.current.value;
 
     socket.emit("sendmsg", { message: messageData, groupid: groupId });
-  };
-  useEffect(() => {
-    socket.emit("join-room", groupId);
-  }, [socket]);
 
+    messageref.current.value=""
+  };
+ 
+  // useEffect(() => {
+  //   axios
+  //     .get(`http://localhost:4000/user/getGroupInfo?groupId=${groupId}`, {
+  //       headers: { Authorization: localStorage.getItem("token") },
+  //     })
+  //     .then((result) => {
+       
+  //       setGroupDetails(result.data);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // }, []);
   useEffect(() => {
     const chats = allmessage;
 
@@ -122,18 +135,14 @@ const ChatWindow = () => {
                   className={windowcss.groupName}
                   onClick={pageDetailsViewer}
                 >
-                  {"groupName"}
+                  {groupName}
                   <div className={windowcss.activeUser}>
-                  <p>online : shivam5676 </p>
+                  <p>online and tap here for more info </p>
                 </div>
                 </div>
               </div>
 
               <div className={windowcss.chatWindow} ref={chatWindowRef}>
-                {/* <div className={windowcss.activeUser}>
-                  <p>shivam5676 joined</p>
-                </div> */}
-
                 {allmessage ? chatArray : "no message found send first msg"}
               </div>
 

@@ -3,7 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 const data = {
   Allmsg: {},
   groupId: [],
-  groupdetails: {},
+  groupdetail: {},
+  groupName:"",
   groupList: [],
   isWindowOpen: false,
   isLoggedIn: false,
@@ -49,10 +50,12 @@ const DataSlice = createSlice({
     deactivateChatWindow(state) {
       state.isWindowOpen = false;
     },
-    groupDetails(state, action) {
-      state.groupdetails = action.payload;
+    OpenedgroupDetails(state, action) {
+      state.groupdetail = action.payload;
     },
-    addGroupName(state, action) {},
+    addGroupName(state, action) {
+      state.groupName=action.payload
+    },
     login(state) {
       state.isLoggedIn = true;
     },
@@ -62,6 +65,7 @@ const DataSlice = createSlice({
       state.groupName = [];
       state.isWindowOpen = false;
       state.isLoggedIn = false;
+      state.groupList = [];
     },
   },
 });
