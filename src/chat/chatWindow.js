@@ -11,6 +11,7 @@ import socket from "../socket/socket";
 import { BsFillSendFill } from "react-icons/bs";
 
 const ChatWindow = () => {
+  const [fileUpload, setFileUpload] = useState ( null); 
   const chatWindowRef = useRef(null);
   const dispatch = useDispatch();
 
@@ -21,7 +22,7 @@ const ChatWindow = () => {
   const groupId = useSelector((state) => {
     return state.data.groupId;
   });
- 
+
   const allmessage = useSelector((state) => {
     return state.data.Allmsg[groupId];
   });
@@ -38,22 +39,9 @@ const ChatWindow = () => {
 
     socket.emit("sendmsg", { message: messageData, groupid: groupId });
 
-    messageref.current.value=""
+    messageref.current.value = "";
   };
- 
-  // useEffect(() => {
-  //   axios
-  //     .get(`http://localhost:4000/user/getGroupInfo?groupId=${groupId}`, {
-  //       headers: { Authorization: localStorage.getItem("token") },
-  //     })
-  //     .then((result) => {
-       
-  //       setGroupDetails(result.data);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // }, []);
+
   useEffect(() => {
     const chats = allmessage;
 
@@ -116,6 +104,9 @@ const ChatWindow = () => {
       chatWindowRef.current.scrollTop = chatWindowRef.current.scrollHeight;
     }
   }, [chatArray]);
+  const fileUploadHandler=(e)=>{
+    console.log(e.target.files[0])
+  }
   return (
     <div className={windowcss.chatBox}>
       {chatWindowOpen && (
@@ -137,8 +128,8 @@ const ChatWindow = () => {
                 >
                   {groupName}
                   <div className={windowcss.activeUser}>
-                  <p>online and tap here for more info </p>
-                </div>
+                    <p>online and tap here for more info </p>
+                  </div>
                 </div>
               </div>
 
@@ -147,7 +138,8 @@ const ChatWindow = () => {
               </div>
 
               <div className={windowcss.chatInput}>
-                <input ref={messageref}></input>
+                <input type="file" onChange={fileUploadHandler} className={windowcss.uploader}></input>
+                <input ref={messageref} className={windowcss.messageTaker}></input>
 
                 <BsFillSendFill
                   className={windowcss.sendbtn}

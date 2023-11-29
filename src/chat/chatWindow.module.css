@@ -149,7 +149,7 @@ padding:10px;
 
   align-items: center;
 }
-.chatInput > input {
+.messageTaker {
   width: 80%;
   margin: 20px;
   height: 40px;
@@ -214,4 +214,13 @@ padding:10px;
 display:flex;
 justify-content: center;
 margin:30px;
+}
+.uploader {
+  /* Add your existing styles here */
+  /* For example: */
+  border: 1px solid #ccc;
+  padding: 5px;
+  margin: 4px;
+  border-radius: 4px;
+  width: 140px; /* Set the desired width */
 }
