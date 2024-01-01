@@ -18,7 +18,7 @@ dispatch(dataSliceActions.reset());
 localStorage.removeItem("token")
 localStorage.removeItem("isLoggedIn")
 localStorage.removeItem("myId")
-socket.disconnect()
+// socket.disconnect()
   }
   return (
     <div className={sidepanelcss.sidepanel}>

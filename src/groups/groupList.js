@@ -25,16 +25,9 @@ const GroupList = (props) => {
   const AllGroup = useSelector((state) => state.data.Allmsg);
   const grouplist = useSelector((state) => state.data.groupList);
   console.log(grouplist);
-  useEffect(() => {
-    socket.on("getMsg", (data) => {
-      console.log(data);
-      dispatch(dataSliceActions.addMsg(data));
-    });
-  }, [socket]);
 
   useEffect(() => {
     const newArray = grouplist.map((current) => {
-      // socket.emit("join-room", current[0].id);
       const currentGrp = AllGroup[current[0].id];
       let lastmsgId;
       let lastmessage;
@@ -83,6 +76,38 @@ const GroupList = (props) => {
     });
     setGroupListData(newArray);
     setLoader(false);
+    socket.on("connect", () => {
+      console.log("Connected to server:", socket.id);
+    });
+  }, [grouplist]);
+
+  useEffect(() => {
+    socket.on("getMsg", (data) => {
+      console.log(data);
+      dispatch(dataSliceActions.addMsg(data));
+    });
+  }, []);
+
+  useEffect(() => {
+    const handleSocketUpdate = async () => {
+      console.log(socket.connected);
+      // if (!socket.connected) {
+      //   try {
+      //     await updateSocketConnection(localStorage.getItem("token"));
+      //     console.log("Socket connection updated successfully",socket);
+      //   } catch (error) {
+      //     console.error("Error updating socket connection:", error);
+      //   }
+      // }
+      console.log(socket);
+
+      grouplist.forEach((current) => {
+        console.log(current[0].id);
+        socket.emit("join-room", current[0].id);
+      });
+    };
+
+    handleSocketUpdate();
   }, [grouplist]);
 
   return (

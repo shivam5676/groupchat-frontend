@@ -10,7 +10,9 @@ import socket from "../socket/socket";
 
 import { BsFillSendFill } from "react-icons/bs";
 
+
 const ChatWindow = () => {
+console.log("socket",socket)
   const [fileUpload, setFileUpload] = useState ( null); 
   const chatWindowRef = useRef(null);
   const dispatch = useDispatch();
@@ -37,7 +39,7 @@ const ChatWindow = () => {
   const sendmsgHandler = () => {
     const messageData = messageref.current.value;
 
-    socket.emit("sendmsg", { message: messageData, groupid: groupId });
+    socket.emit("sendmsg", { message: messageData, groupid: groupId,token:localStorage.getItem("token") });
 
     messageref.current.value = "";
   };

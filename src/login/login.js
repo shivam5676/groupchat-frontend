@@ -8,7 +8,7 @@ import { useDispatch } from "react-redux";
 import { dataSliceActions } from "../store/data";
 import { ProgressBar } from "react-loader-spinner";
 import { toast } from "react-toastify";
-import socket, { updateSocketConnection } from "../socket/socket";
+
 const Login = () => {
   const [loader, setLoader] = useState(false);
   const navigate = useNavigate();
@@ -29,10 +29,12 @@ const Login = () => {
         localStorage.setItem("token", res.data.token);
         localStorage.setItem("isLoggedIn", true);
         dispatch(dataSliceActions.login());
-        updateSocketConnection(res.data.token);
+       
 
-        await new Promise((resolve) => socket.once("connect", resolve));
-        navigate("/home");
+        
+          navigate("/home");
+      
+        
       } catch (err) {
         setLoader(false);
         toast.error(err.response.data.msg);

@@ -10,6 +10,7 @@ import AddGroup from "./groups/addGroup";
 
 import { useDispatch, useSelector } from "react-redux";
 import { dataSliceActions } from "./store/data";
+
 function App() {
   const [openAddGroup, setOpenAddGroup] = useState(false);
   const dispatch=useDispatch()
@@ -17,11 +18,13 @@ function App() {
     setOpenAddGroup(true);
   }; 
   const isLoggedin=useSelector(state=>state.data.isLoggedIn);
-  console.log("loggedstate",isLoggedin)
+  
   useEffect(()=>{
-   if (localStorage.getItem("token")){
+    console.log("app effect")
+   if (localStorage.getItem("isLoggedIn")=="true"){
     dispatch(dataSliceActions.login())
    }
+
   },[])
  
   return (

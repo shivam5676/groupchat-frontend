@@ -8,35 +8,35 @@ import SidePanel from "../sidePanel/sidepanel";
 
 import { useDispatch, useSelector } from "react-redux";
 import { dataSliceActions } from "../store/data";
-import socket from "../socket/socket";
+// import { io } from "socket.io-client";
+import socket, { updateSocketConnection } from "../socket/socket";
+import { useNavigate } from "react-router-dom";
+
 const HomePage = () => {
+  const Navigate=useNavigate();
+  // const socket=io("http://localhost:4000")
   const [openAddGroup, setOpenAddGroup] = useState(false);
   const dispatch = useDispatch();
   const grouplists = useSelector((state) => state.data.groupList);
-  const handlesocketlogic = () => {
-    
-    grouplists.forEach((current) => {
-      console.log("join",current[0].id);
-      socket.emit("join-room", current[0].id);
-    });
-  };
-  useEffect(() => {
-    handlesocketlogic();
-  }, [grouplists]);
+  
+
   useEffect(() => {
     axios
       .get("http://localhost:4000/user/verify", {
         headers: { Authorization: localStorage.getItem("token") },
       })
       .then((res) => {
-        console.log(res.data);
         localStorage.setItem("myId", res.data.user.id);
       })
       .catch((err) => {
-        console.log(err);
+        
+        localStorage.setItem("isLoggedIn",false)
+        dispatch(dataSliceActions.reset())
+        Navigate("/login");
+        //console.log(err.response.data.msg);
       });
   }, []);
-  
+
   useEffect(() => {
     axios
       .get("http://localhost:4000/user/fetchgroup", {
@@ -48,6 +48,14 @@ const HomePage = () => {
         });
       });
   }, []);
+  // useEffect(() => {
+  //   console.log(grouplists);
+ 
+  //   grouplists.forEach((current) => {
+  //     console.log(current[0].id);
+  //     socket.emit("join-room", current[0].id);
+  //   });
+  // }, [grouplists, socket]);
 
   return (
     <div className={homepagecss.main}>
