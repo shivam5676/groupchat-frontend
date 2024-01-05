@@ -4,31 +4,37 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { dataSliceActions } from "../store/data";
 
-import socket from "../socket/socket";
+// import socket from "../socket/socket";
 import { Vortex } from "react-loader-spinner";
 import { MdOutlineGroupAdd } from "react-icons/md";
+import GroupListPrint from "./groupListPrint";
+import useCustomDomain from "../useCustomDomain";
+import useSocket from "../socket/socket";
 
 const GroupList = (props) => {
+  const socket=useSocket()
   const [groupListData, setGroupListData] = useState([]);
   const [isActive, setActive] = useState(null);
-  const [loader, setLoader] = useState(true);
+  const [loader, setLoader] = useState(false);
+  const [lastMessageTxt,setLastMessageTxt]=useState();
   const dispatch = useDispatch();
-
+const domain=useCustomDomain();
   const groupHandler = (group) => {
-    console.log(group);
+   
     dispatch(dataSliceActions.addGroupId(group.id));
     dispatch(dataSliceActions.addGroupName(group.groupName));
     dispatch(dataSliceActions.activateChatWindow());
     setActive(group.id);
   };
-
-  const AllGroup = useSelector((state) => state.data.Allmsg);
+console.log("isActive",isActive)
+  const AllGroupMsg = useSelector((state) => state.data.Allmsg);
   const grouplist = useSelector((state) => state.data.groupList);
-  console.log(grouplist);
-
+  
   useEffect(() => {
+    setLoader(true)
     const newArray = grouplist.map((current) => {
-      const currentGrp = AllGroup[current[0].id];
+      socket.emit("join-room", current[0].id);
+      const currentGrp = AllGroupMsg[current[0].id];
       let lastmsgId;
       let lastmessage;
       if (currentGrp && currentGrp.length > 0) {
@@ -36,13 +42,14 @@ const GroupList = (props) => {
         lastmessage = `${currentGrp[currentGrp.length - 1].user.name} : ${
           currentGrp[currentGrp.length - 1].text
         }`;
+        setLastMessageTxt(lastmessage);
       } else {
         lastmsgId = null;
-        lastmessage = "No messages yet";
+        lastmessage = "No messages yet";      
       }
       axios
         .get(
-          `http://localhost:4000/user/getmsg?groupid=${current[0].id}&lastmsgId=${lastmsgId}`,
+          `${domain}/user/getmsg?groupid=${current[0].id}&lastmsgId=${lastmsgId}`,
           {
             headers: { Authorization: localStorage.getItem("token") },
           }
@@ -58,9 +65,9 @@ const GroupList = (props) => {
       //display current group card
       return (
         <div
-          className={`${groupListcss.item} ${
-            isActive === current[0].id ? groupListcss.active : ""
-          }`}
+          className={`${groupListcss.item}`
+           
+           }
           key={current[0].id}
           onClick={() => groupHandler(current[0])}
         >
@@ -72,13 +79,12 @@ const GroupList = (props) => {
             <div className={groupListcss.lastMsg}>{lastmessage}</div>
           </div>
         </div>
+        // <GroupListPrint key={current[0].id} group={current[0]} lastmessage={lastmessage}></GroupListPrint>
       );
     });
     setGroupListData(newArray);
     setLoader(false);
-    socket.on("connect", () => {
-      console.log("Connected to server:", socket.id);
-    });
+  
   }, [grouplist]);
 
   useEffect(() => {
@@ -87,28 +93,6 @@ const GroupList = (props) => {
       dispatch(dataSliceActions.addMsg(data));
     });
   }, []);
-
-  useEffect(() => {
-    const handleSocketUpdate = async () => {
-      console.log(socket.connected);
-      // if (!socket.connected) {
-      //   try {
-      //     await updateSocketConnection(localStorage.getItem("token"));
-      //     console.log("Socket connection updated successfully",socket);
-      //   } catch (error) {
-      //     console.error("Error updating socket connection:", error);
-      //   }
-      // }
-      console.log(socket);
-
-      grouplist.forEach((current) => {
-        console.log(current[0].id);
-        socket.emit("join-room", current[0].id);
-      });
-    };
-
-    handleSocketUpdate();
-  }, [grouplist]);
 
   return (
     <>

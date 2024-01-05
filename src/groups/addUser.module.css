@@ -62,17 +62,21 @@
   
   .inputfield{
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  
   width:95%;
-  height:30px;
+  /* height:40px; */
   margin:10px;
   justify-content: center;
   /* align-items: center;; */
   border-bottom:1px solid black ;
   padding-bottom: 5px;
   }
-  .inputfield>input{
+  .input{margin: 10px 5px;;
     color:black;
     border-radius: 10px;
+    height:25px
   }
   .inputfield>button{
     margin:0px 5px;

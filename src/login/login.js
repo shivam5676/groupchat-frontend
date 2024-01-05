@@ -8,9 +8,11 @@ import { useDispatch } from "react-redux";
 import { dataSliceActions } from "../store/data";
 import { ProgressBar } from "react-loader-spinner";
 import { toast } from "react-toastify";
+import useCustomDomain from "../useCustomDomain";
 
 const Login = () => {
   const [loader, setLoader] = useState(false);
+  const domain =useCustomDomain();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const emailref = useRef();
@@ -24,7 +26,7 @@ const Login = () => {
 
     setTimeout(async() => {
       try {
-        const res = await axios.post("http://localhost:4000/user/login", myobj);
+        const res = await axios.post(`${domain}/user/login`, myobj);
 
         localStorage.setItem("token", res.data.token);
         localStorage.setItem("isLoggedIn", true);
@@ -36,8 +38,14 @@ const Login = () => {
       
         
       } catch (err) {
+        console.log(err)
         setLoader(false);
-        toast.error(err.response.data.msg);
+        if(err.respone){
+           toast.error(err.response.data.msg);
+        }
+       else{
+        toast.error(err.message)
+       }
       }
     }, 1000);
   };

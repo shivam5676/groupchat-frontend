@@ -6,21 +6,22 @@ import { IoArrowBackCircleSharp } from "react-icons/io5";
 
 import GroupDetails from "../groups/GroupDetails";
 import { dataSliceActions } from "../store/data";
-import socket from "../socket/socket";
+// import socket from "../socket/socket";
 
 import { BsFillSendFill } from "react-icons/bs";
-
+import ChatMessage from "./chatMessage";
+import { FaRegImages } from "react-icons/fa";
+import useSocket from "../socket/socket";
 
 const ChatWindow = () => {
-console.log("socket",socket)
-  const [fileUpload, setFileUpload] = useState ( null); 
+  const socket = useSocket();
+
   const chatWindowRef = useRef(null);
   const dispatch = useDispatch();
 
   const messageref = useRef();
   const [pageDetail, setPageDetail] = useState(false);
 
-  const [chatArray, setChatArray] = useState([]);
   const groupId = useSelector((state) => {
     return state.data.groupId;
   });
@@ -28,7 +29,7 @@ console.log("socket",socket)
   const allmessage = useSelector((state) => {
     return state.data.Allmsg[groupId];
   });
-  console.log("allmessage", allmessage);
+
   const groupName = useSelector((state) => {
     return state.data.groupName;
   });
@@ -39,58 +40,15 @@ console.log("socket",socket)
   const sendmsgHandler = () => {
     const messageData = messageref.current.value;
 
-    socket.emit("sendmsg", { message: messageData, groupid: groupId,token:localStorage.getItem("token") });
+    socket.emit("sendmsg", {
+      message: messageData,
+      groupid: groupId,
+      token: localStorage.getItem("token"),
+    });
 
     messageref.current.value = "";
   };
 
-  useEffect(() => {
-    const chats = allmessage;
-
-    if (chats) {
-      const newarray = chats.map((current, index) => {
-        const dates = new Date(current.createdAt);
-
-        // Get hours and minutes from the Date object
-        const hours = dates.getHours();
-        const minutes = dates.getMinutes();
-
-        // Format the time in hh:mm format
-        const formattedTime = `${hours.toString().padStart(2, "0")}:${minutes
-          .toString()
-          .padStart(2, "0")}`;
-
-        if (current.user.id == localStorage.getItem("myId")) {
-          const dates = new Date(current.createdAt);
-
-          return (
-            <div className={windowcss.sendermsg} key={current.messageid}>
-              <div className={windowcss.sendermsgLeft}>
-                <div className={windowcss.senderMessageBox}>
-                  <p>{current.text} </p>
-
-                  <p className={windowcss.messagetime}>{formattedTime}</p>
-                </div>
-              </div>
-            </div>
-          );
-        } else {
-          return (
-            <div className={windowcss.recievermsg} key={current.messageid}>
-              <div className={windowcss.recieverMessageBox}>
-                <div className={windowcss.recieverdetails}>
-                  <p>{current.user.name}</p> <p>{current.user.mobile}</p>
-                </div>
-                <p className={windowcss.usermessage}>{current.text} </p>
-                <p className={windowcss.messagetime}>{formattedTime}</p>
-              </div>
-            </div>
-          );
-        }
-      });
-      setChatArray(newarray);
-    }
-  }, [groupId, allmessage]);
   const pageDetailsViewer = () => {
     setPageDetail(true);
   };
@@ -101,14 +59,20 @@ console.log("socket",socket)
     dispatch(dataSliceActions.deactivateChatWindow());
   };
   useEffect(() => {
-    // Scroll to the bottom of the chat window when chatArray is updated
+    // Scroll to the bottom of the chat window when dependency is updated
     if (chatWindowRef.current) {
-      chatWindowRef.current.scrollTop = chatWindowRef.current.scrollHeight;
+      console.log("Container Height:", chatWindowRef.current.clientHeight);
+      console.log("Scroll Height:", chatWindowRef.current.scrollHeight);
+      console.log("Scroll Top:", chatWindowRef.current.scrollTop);
+      setTimeout(() => {
+        chatWindowRef.current.scrollTop = chatWindowRef.current.scrollHeight;
+      }, 0);
     }
-  }, [chatArray]);
-  const fileUploadHandler=(e)=>{
-    console.log(e.target.files[0])
-  }
+  }, [allmessage]);
+  const imageUploader = () => {
+    // props.imageUploaderOpen()
+    dispatch(dataSliceActions.imageWindowLoader());
+  };
   return (
     <div className={windowcss.chatBox}>
       {chatWindowOpen && (
@@ -130,18 +94,28 @@ console.log("socket",socket)
                 >
                   {groupName}
                   <div className={windowcss.activeUser}>
-                    <p>online and tap here for more info </p>
+                    <p>tap here for more info </p>
                   </div>
                 </div>
               </div>
 
               <div className={windowcss.chatWindow} ref={chatWindowRef}>
-                {allmessage ? chatArray : "no message found send first msg"}
+                {allmessage ? (
+                  <ChatMessage></ChatMessage>
+                ) : (
+                  "no message found send first msg"
+                )}
               </div>
 
               <div className={windowcss.chatInput}>
-                <input type="file" onChange={fileUploadHandler} className={windowcss.uploader}></input>
-                <input ref={messageref} className={windowcss.messageTaker}></input>
+                <FaRegImages
+                  className={windowcss.imageUpload}
+                  onClick={imageUploader}
+                />
+                <input
+                  ref={messageref}
+                  className={windowcss.messageTaker}
+                ></input>
 
                 <BsFillSendFill
                   className={windowcss.sendbtn}

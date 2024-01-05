@@ -6,8 +6,10 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import { HiMiniShieldCheck } from "react-icons/hi2"
 import { toast } from "react-toastify";
+import useCustomDomain from "../useCustomDomain";
 const UserList = () => {
   const [totalUser, settotalUser] = useState([]);
+  const domain=useCustomDomain();
   const currentgroupId = useSelector((state) => {
     return state.data.groupId;
   });
@@ -15,7 +17,7 @@ const UserList = () => {
    
     axios
       .get(
-        `http://localhost:4000/user/makeAdmin?userid=${userId}&groupid=${currentgroupId}`,
+        `${domain}/user/makeAdmin?userid=${userId}&groupid=${currentgroupId}`,
 
         {
           headers: { Authorization: localStorage.getItem("token") },
@@ -30,7 +32,7 @@ const UserList = () => {
  
     axios
       .get(
-        `http://localhost:4000/user/deleteUser?userid=${userId}&groupid=${currentgroupId}`,
+        `${domain}/user/deleteUser?userid=${userId}&groupid=${currentgroupId}`,
 
         {
           headers: { Authorization: localStorage.getItem("token") },
@@ -47,7 +49,7 @@ const UserList = () => {
   });
   useEffect(() => {
     axios
-      .get(`http://localhost:4000/user/getuser?&groupid=${groupId}`, {
+      .get(`${domain}/user/getuser?&groupid=${groupId}`, {
         headers: { Authorization: localStorage.getItem("token") },
       })
       .then((response) => {

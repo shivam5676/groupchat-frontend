@@ -3,13 +3,16 @@ import sidepanelcss from "./sidepanel.module.css";
 import { MdOutlineGroupAdd } from "react-icons/md";
 import { FiLogOut } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { dataSliceActions } from "../store/data";
-import socket from "../socket/socket";
 
-const SidePanel = () => {
+
+const SidePanel = (props) => {
+  
   const dispatch=useDispatch()
   const navigate=useNavigate();
+  
+  
   const addGroupHandler=()=>{
 return navigate("/creategroup")
   }
@@ -20,12 +23,17 @@ localStorage.removeItem("isLoggedIn")
 localStorage.removeItem("myId")
 // socket.disconnect()
   }
+  const imageUploader=()=>{
+    // props.imageUploaderOpen()
+    dispatch(dataSliceActions.imageWindowLoader({imageUploadUrl:"hello"}))
+    // dispatch(dataSliceActions.image)
+  }
   return (
     <div className={sidepanelcss.sidepanel}>
       <div className={sidepanelcss.iconbox}>
         {" "}
         <div className={sidepanelcss.iconbg}>
-          <AiFillSetting className={sidepanelcss.icon} ></AiFillSetting>
+          <AiFillSetting className={sidepanelcss.icon} onClick={imageUploader}></AiFillSetting>
         </div>
         <div className={sidepanelcss.iconbg}>
           <MdOutlineGroupAdd className={sidepanelcss.icon} onClick={addGroupHandler}></MdOutlineGroupAdd>

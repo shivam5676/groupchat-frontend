@@ -1,95 +1,93 @@
-
 .chatBox {
   display: flex;
   height: 100%;
 
   /* border: 2px solid blue; */
-  border-radius:0px 50px 50px 0px;
-  flex:1
+  border-radius: 0px 50px 50px 0px;
+  flex: 1;
 }
 .chatBoxContainer {
   display: flex;
   /* border: 2px solid green; */
-flex-direction: column;
+  flex-direction: column;
   height: 100%;
-  flex:1;
-border-radius:0px 50px 50px 0px;
+  flex: 1;
+  border-radius: 0px 50px 50px 0px;
 }
 
 .chatWindow {
   display: flex;
   flex-direction: column;
+
+  background-color: rgb(217, 231, 179);
+  height: 100%;
   
-  background-color: rgb(179, 218, 231);
-  height: 90%;
-  width:100%;
-  overflow-y:scroll;
+  width: 100%;
+  overflow-y: scroll;
+  border-bottom: 2px solid black;
+ 
 }
-.chatProfile{
+.chatProfile {
   display: flex;
   align-items: center;
-  background-color:rgb(110, 130, 168);
-  width:100%;
-  height:70px;
+  background-color: rgb(110, 130, 168);
+  width: 100%;
+  height: 70px;
   border-radius: 0px 50px 0px 0px;
   border-bottom: 2px solid white;
-  
 }
-.backbtn{
-padding:10px;
-
+.backbtn {
+  padding: 10px;
 }
-.backbtnicon{
-  width:30px;
-  height:30px;
+.backbtnicon {
+  width: 30px;
+  height: 30px;
   color: antiquewhite;
 }
-.groupName{
-  display:flex;
+.groupName {
+  display: flex;
   flex-direction: column;
- 
+
   padding: 10px;
-  width:200px;
+  width: 200px;
   font-weight: bold;
   font-size: 1.2rem;
   color: aliceblue;
   overflow: hidden;
-  text-wrap:nowrap;
+  text-wrap: nowrap;
   text-overflow: ellipsis;
 }
 
 .activeUser > p {
-  
-
   padding: 5px 5px 5px 0px;
   border-radius: 7px;
-  width:170px;
-  height:10px;
+  width: 170px;
+  height: 10px;
   overflow: hidden;
   text-overflow: ellipsis;
-  text-wrap:nowrap;
-  color:black;
+  text-wrap: nowrap;
+  color: black;
   font-weight: 300;
-  font-size: .85rem;
-  margin-top:5px;
+  font-size: 0.85rem;
+  margin-top: 5px;
   color: antiquewhite;
 }
 
 .sendermsg {
   display: flex;
-  
+
   justify-content: right;
 }
-.sendermsgLeft{
+.sendermsgLeft {
   display: flex;
-  width:75%;
+  width: 75%;
   justify-content: end;
 }
-.senderMessageBox  {
-  display:flex;
+.senderMessageBox {
+  display: flex;
   flex-direction: column;
- 
-  width:fit-content;
+
+  width: fit-content;
   background-color: rgb(173, 46, 173);
   color: aliceblue;
   padding: 8px 10px;
@@ -101,10 +99,10 @@ padding:10px;
 .recievermsg {
   display: flex;
   justify-content: left;
-  width:75%;
+  width: 75%;
 }
-.recieverMessageBox  {
-  display:flex;
+.recieverMessageBox {
+  display: flex;
   flex-direction: column;
   background-color: lightseagreen;
   color: aliceblue;
@@ -114,40 +112,46 @@ padding:10px;
   /* flex-basis:50%; */
   outline: none;
 }
-.recieverdetails{
-  display:flex;
+.recieverdetails {
+  display: flex;
   justify-content: space-between;
- font-size: 0.7rem;
+  font-size: 0.7rem;
   border-bottom: 1px solid black;
-  padding:4px 2px;
+  padding: 4px 2px;
   background-color: rgb(23, 112, 108);
 }
-.recieverdetails>p{
-  margin:0px 5px;
-  width:60px;
+.recieverdetails > p {
+  margin: 0px 5px;
+  width: 60px;
   overflow: hidden;
   text-overflow: ellipsis;
   text-wrap: nowrap;
 }
-.messagetime{
+.messagetime {
   display: flex;
-  
- justify-content: end;
+
+  justify-content: end;
   align-items: end;
-  font-size: .75rem;
-  margin-left:10px;
-  margin-top:2px;
+  font-size: 0.75rem;
+  margin-left: 10px;
+  margin-top: 2px;
   /* position: relative; */
   /* top:8px; */
+
 }
 
-.usermessage{
-  margin:3px 15px
+.usermessage {
+  margin: 3px 15px;
 }
 .chatInput {
   display: flex;
-
+/* display: none; */
   align-items: center;
+}
+.imageUpload{
+  width: 30px;
+  height: 25px;
+  padding-left: 10px;;
 }
 .messageTaker {
   width: 80%;
@@ -160,10 +164,9 @@ padding:10px;
   width: 40px;
   border-radius: 50px;
   margin-right: 20px;
-  background-color:rgb(71, 105, 168);
-  padding:10px;
-  color:aliceblue
-
+  background-color: rgb(71, 105, 168);
+  padding: 10px;
+  color: aliceblue;
 }
 .chatWindow::-webkit-scrollbar {
   display: none;
@@ -171,49 +174,48 @@ padding:10px;
 
 /* Hide scrollbar for IE, Edge and Firefox */
 .chatWindow {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
 
-.pageDetails{
+.pageDetails {
   display: flex;
   flex-direction: column;
   background-color: rgb(94, 135, 168);
-  height:100%;
-  border-radius:0px 50px 50px 0px;
+  height: 100%;
+  border-radius: 0px 50px 50px 0px;
 }
-.pageData{
-  display:flex;
+.pageData {
+  display: flex;
   align-items: center;
   justify-content: center;
-  height:150px;
-  width:100%;
-  
+  height: 150px;
+  width: 100%;
 }
-.pageimg{
-  width:80px;
-  height:80px;
-  border:2px solid black;
-  margin:10px;
+.pageimg {
+  width: 80px;
+  height: 80px;
+  border: 2px solid black;
+  margin: 10px;
 }
-.Backbtn{
-  margin:10px 20px
+.Backbtn {
+  margin: 10px 20px;
 }
-.pageMemberTitle{
+.pageMemberTitle {
   display: flex;
   justify-content: center;
 }
-.pageMemberList{
-  display:flex;
-  border:1px solid black;
-  height:100%;
-  border-radius:0px 0px 50px 0px;
+.pageMemberList {
+  display: flex;
+  border: 1px solid black;
+  height: 100%;
+  border-radius: 0px 0px 50px 0px;
 }
 
-.loading{
-display:flex;
-justify-content: center;
-margin:30px;
+.loading {
+  display: flex;
+  justify-content: center;
+  margin: 30px;
 }
 .uploader {
   /* Add your existing styles here */

@@ -6,6 +6,7 @@ import { FaUserCheck } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { MagnifyingGlass } from "react-loader-spinner";
 import { toast } from "react-toastify";
+import useCustomDomain from "../useCustomDomain";
 
 const AddUser = () => {
   const [searchresult, setSearchResult] = useState([]);
@@ -15,17 +16,18 @@ const AddUser = () => {
     return state.data.groupId;
   });
   const searchref = useRef();
+  const domain=useCustomDomain()
   const addUserToGroupHandler = (newuserId) => {
     axios
       .get(
-        `http://localhost:4000/user/addUser?userId=${newuserId}&groupId=${currentgroupId}`,
+        `${domain}/user/addUser?userId=${newuserId}&groupId=${currentgroupId}`,
 
         {
           headers: { Authorization: localStorage.getItem("token") },
         }
       )
       .then((result) => {
-        console.log(result);
+        
      toast.success("user added successfully go back and see updated user list")
         setAddedLoader(true);
         
@@ -37,7 +39,7 @@ const AddUser = () => {
     setTimeout(() => {
       axios
         .get(
-          `http://localhost:4000/user/fetchalluser?search=${searchref.current.value}`,
+          `${domain}/user/fetchalluser?search=${searchref.current.value}`,
 
           {
             headers: { Authorization: localStorage.getItem("token") },
@@ -84,8 +86,10 @@ const AddUser = () => {
   return (
     <>
       <div className={addUserCss.inputfield}>
-        <input ref={searchref} placeholder="hello"></input>
-        <button onClick={searchuserHandler}>search</button>
+        <label>search by name,email,mob no</label>
+        <div><input ref={searchref} placeholder="hello" className={addUserCss.input}></input>
+        <button onClick={searchuserHandler}>search</button></div>
+        
       </div>
       {loader && (
         <div className={addUserCss.glass}>
@@ -99,7 +103,7 @@ const AddUser = () => {
             glassColor="#c0efff"
             color="#e15b64"
           />
-          searching in database
+          searching in database...
         </div>
       )}
 

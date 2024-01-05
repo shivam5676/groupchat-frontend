@@ -4,10 +4,12 @@ const data = {
   Allmsg: {},
   groupId: [],
   groupdetail: {},
-  groupName:"",
+  groupName: "",
   groupList: [],
   isWindowOpen: false,
   isLoggedIn: false,
+  imageWindowStatus: false,
+  imageUploadPath: "",
 };
 const DataSlice = createSlice({
   name: "messagedata",
@@ -54,10 +56,19 @@ const DataSlice = createSlice({
       state.groupdetail = action.payload;
     },
     addGroupName(state, action) {
-      state.groupName=action.payload
+      state.groupName = action.payload;
     },
     login(state) {
       state.isLoggedIn = true;
+    },
+
+    imageWindowLoader(state, action) {
+      state.imageWindowStatus = !state.imageWindowStatus;
+      if (!action.payload) {
+        state.imageUploadPath = "";
+      } else {
+        state.imageUploadPath = action.payload.imageUploadUrl;
+      }
     },
     reset(state) {
       state.Allmsg = {};

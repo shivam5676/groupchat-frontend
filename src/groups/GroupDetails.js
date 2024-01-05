@@ -9,14 +9,17 @@ import { useState } from "react";
 import AddUser from "./addUser";
 import UserList from "./userList";
 import { useDispatch, useSelector } from "react-redux";
+import FileUploader from "./fileUploader";
+import { dataSliceActions } from "../store/data";
+import useCustomDomain from "../useCustomDomain";
 
 const GroupDetails = (props) => {
-  const dispatch = useDispatch();
   const [searchMode, setSearchMode] = useState(false);
-
+const domain=useCustomDomain();
   const [GroupDetails, setGroupDetails] = useState(undefined);
-  console.log(GroupDetails);
+ const dispatch=useDispatch();
   const groupId = useSelector((state) => state.data.groupId);
+
   const backbuttonHandler = () => {
     props.closeDetailPage();
   };
@@ -29,18 +32,25 @@ const GroupDetails = (props) => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:4000/user/getGroupInfo?groupId=${groupId}`, {
+      .get(`${domain}/user/getGroupInfo?groupId=${groupId}`, {
         headers: { Authorization: localStorage.getItem("token") },
       })
       .then((result) => {
-       
         setGroupDetails(result.data);
       })
       .catch((err) => {
         console.log(err);
       });
   }, []);
-
+  const [file, setFile] = useState();
+  function handleChange(e) {
+    console.log(e.target.files);
+    setFile(URL.createObjectURL(e.target.files[0]));
+  }
+  const imageUploader=()=>{
+    // props.imageUploaderOpen()
+    dispatch(dataSliceActions.imageWindowLoader())
+  }
   return (
     <div className={groupdetailcss.pageDetails}>
       <div className={groupdetailcss.Backbtn}>
@@ -50,7 +60,9 @@ const GroupDetails = (props) => {
         ></FaArrowCircleLeft>
       </div>
       <div className={groupdetailcss.pageData}>
-        <div className={groupdetailcss.pageimg}></div>
+        <div className={groupdetailcss.pageimg}>
+          <div onClick={imageUploader}>change</div>
+        </div>
 
         {GroupDetails && (
           <div className={groupdetailcss.pageinfo}>

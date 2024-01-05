@@ -7,8 +7,10 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { MdOutlineDriveFileRenameOutline } from "react-icons/md";
 import { ProgressBar } from "react-loader-spinner";
 import { toast } from "react-toastify";
+import useCustomDomain from "../useCustomDomain";
 const SignUp = () => {
   const [loader,setloader]=useState(false)
+  const domain=useCustomDomain();
   const navigate=useNavigate();
   const emailref = useRef();
   const passwordref = useRef();
@@ -31,7 +33,7 @@ const SignUp = () => {
     setloader(true)
     setTimeout(()=>{
       axios
-      .post("http://localhost:4000/user/savedata", myObj)
+      .post(`${domain}/user/savedata`, myObj)
       .then((response) => {
         
         toast.success(response.data.msg)
@@ -43,7 +45,12 @@ const SignUp = () => {
       .catch((err) => {
         
         setloader(false)
-        toast.error(err.response.data.msg)
+        if(err.respone){
+          toast.error(err.response.data.msg);
+       }
+      else{
+       toast.error(err.message)
+      }
       });
     },1000)
     

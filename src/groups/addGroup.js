@@ -1,16 +1,26 @@
 import axios from "axios";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import addgroupcss from "./addGroup.module.css";
 import { BsFillArrowLeftCircleFill } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import useCustomDomain from "../useCustomDomain";
 const AddGroup = () => {
+  const useDomain = useCustomDomain();
   const navigate = useNavigate();
   const groupNameref = useRef();
+  const [msg, setMsg] = useState("");
   const addGroupHandler = () => {
+    if (groupNameref.current.value.trim() <= 0) {
+      setMsg("group name can not be empty");
+      setTimeout(()=>{
+        setMsg()
+      },3300)
+      return;
+    }
     axios
       .post(
-        "http://localhost:4000/user/creategroup",
+        `${useDomain}/user/creategroup`,
         {
           grpname: groupNameref.current.value,
         },
@@ -19,20 +29,19 @@ const AddGroup = () => {
         }
       )
       .then((res) => {
-        toast("group added successfully....redirecting You to main page")
-        setTimeout(()=>{
+        toast("group added successfully....redirecting You to main page");
+        setTimeout(() => {
           return navigate(-1);
-        },3000)
+        }, 3000);
       })
       .catch((err) => {
         console.log(err);
-        toast.error("something went wrong try again .....")
+        toast.error("something went wrong try again .....");
       });
-
-    
-  };function backbuttonHandler() {
-      return navigate(-1);
-    }
+  };
+  function backbuttonHandler() {
+    return navigate(-1);
+  }
   return (
     <div className={addgroupcss.main}>
       <div className={addgroupcss.container}>
@@ -49,6 +58,7 @@ const AddGroup = () => {
         <button onClick={addGroupHandler} className={addgroupcss.submitbtn}>
           create
         </button>
+        <p className={addgroupcss.message}>{msg}</p>
       </div>
     </div>
   );
