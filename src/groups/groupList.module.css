@@ -41,6 +41,12 @@
   border: 2px solid red;
   border-radius: 50px;
   margin: 5px 5px 5px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 .groupInfo {
   display: flex;

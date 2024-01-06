@@ -13,11 +13,11 @@ import socket, { updateSocketConnection } from "../socket/socket";
 import { useNavigate } from "react-router-dom";
 import FileUploader from "../groups/fileUploader";
 import FileSelector from "../groups/fileSelector";
-import useCustomDomain from "../useCustomDomain";
+
 
 const HomePage = () => {
   const Navigate = useNavigate();
-  const domain=useCustomDomain()
+  const domain=process.env.REACT_APP_BACKENDURL
  
 
   const dispatch = useDispatch();
@@ -45,6 +45,7 @@ const HomePage = () => {
         headers: { Authorization: localStorage.getItem("token") },
       })
       .then((response) => {
+        console.log(response)
         response.data.forEach((current) => {
           dispatch(dataSliceActions.addGroupList(current));
         });

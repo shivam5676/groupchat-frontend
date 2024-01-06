@@ -8,17 +8,18 @@ import { dataSliceActions } from "../store/data";
 import { Vortex } from "react-loader-spinner";
 import { MdOutlineGroupAdd } from "react-icons/md";
 import GroupListPrint from "./groupListPrint";
-import useCustomDomain from "../useCustomDomain";
-import useSocket from "../socket/socket";
+
+// import useSocket from "../socket/socket";
+import Socket from "../socket/socket";
 
 const GroupList = (props) => {
-  const socket=useSocket()
+  // const socket=useSocket()
   const [groupListData, setGroupListData] = useState([]);
   const [isActive, setActive] = useState(null);
-  const [loader, setLoader] = useState(false);
+  const [loader, setLoader] = useState(true);
   const [lastMessageTxt,setLastMessageTxt]=useState();
   const dispatch = useDispatch();
-const domain=useCustomDomain();
+const domain=process.env.REACT_APP_BACKENDURL;
   const groupHandler = (group) => {
    
     dispatch(dataSliceActions.addGroupId(group.id));
@@ -31,9 +32,13 @@ console.log("isActive",isActive)
   const grouplist = useSelector((state) => state.data.groupList);
   
   useEffect(() => {
-    setLoader(true)
+    
+
+
+    
     const newArray = grouplist.map((current) => {
-      socket.emit("join-room", current[0].id);
+      console.log(current)
+      Socket.emit("join-room", current[0].id);
       const currentGrp = AllGroupMsg[current[0].id];
       let lastmsgId;
       let lastmessage;
@@ -71,7 +76,7 @@ console.log("isActive",isActive)
           key={current[0].id}
           onClick={() => groupHandler(current[0])}
         >
-          <div className={groupListcss.profileImg}></div>
+          <div className={groupListcss.profileImg}><img src={current[0].groupImage} alt="Group Image" /></div>
           <div className={groupListcss.groupInfo}>
             <div className={groupListcss.groupName}>
               <p>{current[0].groupName}</p>
@@ -84,11 +89,11 @@ console.log("isActive",isActive)
     });
     setGroupListData(newArray);
     setLoader(false);
-  
+
   }, [grouplist]);
 
   useEffect(() => {
-    socket.on("getMsg", (data) => {
+    Socket.on("getMsg", (data) => {
       console.log(data);
       dispatch(dataSliceActions.addMsg(data));
     });

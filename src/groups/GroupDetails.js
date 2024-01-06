@@ -11,12 +11,13 @@ import UserList from "./userList";
 import { useDispatch, useSelector } from "react-redux";
 import FileUploader from "./fileUploader";
 import { dataSliceActions } from "../store/data";
-import useCustomDomain from "../useCustomDomain";
+
 
 const GroupDetails = (props) => {
   const [searchMode, setSearchMode] = useState(false);
-const domain=useCustomDomain();
-  const [GroupDetails, setGroupDetails] = useState(undefined);
+const domain=process.env.REACT_APP_BACKENDURL;
+  const [GroupDetails, setGroupDetails] = useState();
+  
  const dispatch=useDispatch();
   const groupId = useSelector((state) => state.data.groupId);
 
@@ -31,26 +32,29 @@ const domain=useCustomDomain();
   };
 
   useEffect(() => {
-    axios
+    const fetchDetails=()=>{
+       axios
       .get(`${domain}/user/getGroupInfo?groupId=${groupId}`, {
         headers: { Authorization: localStorage.getItem("token") },
       })
       .then((result) => {
         setGroupDetails(result.data);
+        console.log(result)
       })
       .catch((err) => {
         console.log(err);
       });
+    }
+    fetchDetails();
+   
   }, []);
-  const [file, setFile] = useState();
-  function handleChange(e) {
-    console.log(e.target.files);
-    setFile(URL.createObjectURL(e.target.files[0]));
+ 
+ 
+  const imageUploader=(groupid)=>{
+   
+    dispatch(dataSliceActions.imageWindowLoader({imageUploadUrl:`http://localhost:4000/user/uploadGroupPhoto?groupId=${groupid}`}))
   }
-  const imageUploader=()=>{
-    // props.imageUploaderOpen()
-    dispatch(dataSliceActions.imageWindowLoader())
-  }
+  console.log(GroupDetails)
   return (
     <div className={groupdetailcss.pageDetails}>
       <div className={groupdetailcss.Backbtn}>
@@ -59,12 +63,13 @@ const domain=useCustomDomain();
           onClick={backbuttonHandler}
         ></FaArrowCircleLeft>
       </div>
-      <div className={groupdetailcss.pageData}>
+      {GroupDetails && (<div className={groupdetailcss.pageData}>
         <div className={groupdetailcss.pageimg}>
-          <div onClick={imageUploader}>change</div>
+          <img src={GroupDetails.groupImage} className={groupdetailcss.groupImage} alt="group image"/>
+          <div onClick={()=>imageUploader(GroupDetails.id)} className={groupdetailcss.changeText}>change</div>
         </div>
 
-        {GroupDetails && (
+        
           <div className={groupdetailcss.pageinfo}>
             <div className={groupdetailcss.pageTitle}>
               {GroupDetails.groupName}
@@ -82,8 +87,8 @@ const domain=useCustomDomain();
               })}
             </div>
           </div>
-        )}
-      </div>
+        
+      </div>)}
       <div className={groupdetailcss.pageAction}>
         <div className={groupdetailcss.actionCard}>
           <div

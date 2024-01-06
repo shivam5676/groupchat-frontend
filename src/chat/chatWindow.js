@@ -11,10 +11,11 @@ import { dataSliceActions } from "../store/data";
 import { BsFillSendFill } from "react-icons/bs";
 import ChatMessage from "./chatMessage";
 import { FaRegImages } from "react-icons/fa";
-import useSocket from "../socket/socket";
+import Socket from "../socket/socket";
+
 
 const ChatWindow = () => {
-  const socket = useSocket();
+ 
 
   const chatWindowRef = useRef(null);
   const dispatch = useDispatch();
@@ -40,7 +41,7 @@ const ChatWindow = () => {
   const sendmsgHandler = () => {
     const messageData = messageref.current.value;
 
-    socket.emit("sendmsg", {
+    Socket.emit("sendmsg", {
       message: messageData,
       groupid: groupId,
       token: localStorage.getItem("token"),
@@ -66,7 +67,7 @@ const ChatWindow = () => {
       console.log("Scroll Top:", chatWindowRef.current.scrollTop);
       setTimeout(() => {
         chatWindowRef.current.scrollTop = chatWindowRef.current.scrollHeight;
-      }, 0);
+      }, 80);
     }
   }, [allmessage]);
   const imageUploader = () => {

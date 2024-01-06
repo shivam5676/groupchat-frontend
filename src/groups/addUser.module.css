@@ -90,3 +90,8 @@
     align-items: center;
     
   }
+  .profileImage{
+    height:35px;
+    width: 2px;;
+    overflow: hidden;
+  }

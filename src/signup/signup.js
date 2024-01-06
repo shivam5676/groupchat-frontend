@@ -7,10 +7,10 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { MdOutlineDriveFileRenameOutline } from "react-icons/md";
 import { ProgressBar } from "react-loader-spinner";
 import { toast } from "react-toastify";
-import useCustomDomain from "../useCustomDomain";
+
 const SignUp = () => {
   const [loader,setloader]=useState(false)
-  const domain=useCustomDomain();
+  const domain=process.env.REACT_APP_BACKENDURL;
   const navigate=useNavigate();
   const emailref = useRef();
   const passwordref = useRef();

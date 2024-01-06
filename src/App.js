@@ -26,10 +26,10 @@ function App() {
    }
 
   },[])
- 
+ console.log(process.env.REACT_APP_NAME)
   return (
     <div className={appcss.containers}>
-     
+   
       <Routes>
         {isLoggedin ? (
           <>

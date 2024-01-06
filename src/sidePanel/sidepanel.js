@@ -25,7 +25,7 @@ localStorage.removeItem("myId")
   }
   const imageUploader=()=>{
     // props.imageUploaderOpen()
-    dispatch(dataSliceActions.imageWindowLoader({imageUploadUrl:"hello"}))
+    dispatch(dataSliceActions.imageWindowLoader({imageUploadUrl:"http://localhost:4000/user/uploadProfilePhoto"}))
     // dispatch(dataSliceActions.image)
   }
   return (

@@ -8,11 +8,11 @@ import { useDispatch } from "react-redux";
 import { dataSliceActions } from "../store/data";
 import { ProgressBar } from "react-loader-spinner";
 import { toast } from "react-toastify";
-import useCustomDomain from "../useCustomDomain";
+
 
 const Login = () => {
   const [loader, setLoader] = useState(false);
-  const domain =useCustomDomain();
+  const domain =process.env.REACT_APP_BACKENDURL;
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const emailref = useRef();

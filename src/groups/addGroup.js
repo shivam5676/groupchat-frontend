@@ -4,9 +4,9 @@ import addgroupcss from "./addGroup.module.css";
 import { BsFillArrowLeftCircleFill } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import useCustomDomain from "../useCustomDomain";
+
 const AddGroup = () => {
-  const useDomain = useCustomDomain();
+  const useDomain = process.env.REACT_APP_BACKENDURL;
   const navigate = useNavigate();
   const groupNameref = useRef();
   const [msg, setMsg] = useState("");
@@ -29,6 +29,7 @@ const AddGroup = () => {
         }
       )
       .then((res) => {
+       
         toast("group added successfully....redirecting You to main page");
         setTimeout(() => {
           return navigate(-1);
