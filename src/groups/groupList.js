@@ -31,16 +31,16 @@ const GroupList = (props) => {
   let chatWindowOpenState = useSelector((state) => {
     return state.data.isWindowOpen;
   });
-  const windowWidth = window.innerWidth;
+  // const windowWidth = window.innerWidth;
 
- if (windowWidth >= 376) {
-    chatWindowOpenState = true;
-  }
-const [windowSizeState, setWindowSizeState] = useState(windowWidth>=376?chatWindowOpenState:true);
+//  if (windowWidth >= 376) {
+//     chatWindowOpenState = true;
+//   }
+// const [windowSizeState, setWindowSizeState] = useState(windowWidth>=376?chatWindowOpenState:true);
 // const {width}=useWindowSize();
 
 
-console.log(windowSizeState)
+// console.log(windowSizeState)
   const groupHandler = (group) => {
     dispatch(dataSliceActions.addGroupId(group.id));
     dispatch(dataSliceActions.addGroupName(group.groupName));
@@ -113,7 +113,7 @@ console.log(windowSizeState)
   console.log(chatWindowOpenState);
   return (
     <>
-      {windowSizeState && (
+      {!chatWindowOpenState && (
         <div className={groupListcss.groupList}>
           <p className={groupListcss.groupTitle}>Chats</p>
 
