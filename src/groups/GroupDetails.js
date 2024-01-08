@@ -39,10 +39,10 @@ const domain=process.env.REACT_APP_BACKENDURL;
       })
       .then((result) => {
         setGroupDetails(result.data);
-        console.log(result)
+        
       })
       .catch((err) => {
-        console.log(err);
+      
       });
     }
     fetchDetails();
@@ -54,7 +54,7 @@ const domain=process.env.REACT_APP_BACKENDURL;
    
     dispatch(dataSliceActions.imageWindowLoader({imageUploadUrl:`http://localhost:4000/user/uploadGroupPhoto?groupId=${groupid}`}))
   }
-  console.log(GroupDetails)
+  
   return (
     <div className={groupdetailcss.pageDetails}>
       <div className={groupdetailcss.Backbtn}>

@@ -6,9 +6,11 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import { HiMiniShieldCheck } from "react-icons/hi2";
 import { toast } from "react-toastify";
+import { Vortex } from "react-loader-spinner";
 
 const UserList = () => {
   const [totalUser, settotalUser] = useState([]);
+  const [loader, setLoader] = useState(true);
   const domain = process.env.REACT_APP_BACKENDURL;
   const currentgroupId = useSelector((state) => {
     return state.data.groupId;
@@ -57,13 +59,12 @@ const UserList = () => {
             <div className={userListCss.memberCard} key={current.userId}>
               <div className={userListCss.memberDetails}>
                 <div className={userListCss.memberImg}>
-                {current.isAdmin && (
-                      <HiMiniShieldCheck
-                        className={userListCss.adminIcon}
-                      ></HiMiniShieldCheck>
-                    )}
-                  <img src={current.usersdata.profileImage} alt="img" /> 
-                 
+                  {current.isAdmin && (
+                    <HiMiniShieldCheck
+                      className={userListCss.adminIcon}
+                    ></HiMiniShieldCheck>
+                  )}
+                  <img src={current.usersdata.profileImage} alt="img" />
                 </div>
                 <div className={userListCss.memberdetailsText}>
                   {" "}
@@ -89,10 +90,11 @@ const UserList = () => {
                     }}
                   >
                     <MdCloudDone className={userListCss.icon}></MdCloudDone>
-                    admin
+                    Add admin
                   </div>
                 ) : (
-                  <div className={userListCss.adminmsg}>admin</div>
+                  ""
+                  // <div className={userListCss.adminmsg}>admin</div>
                 )}
                 <div
                   className={userListCss.actionIcon}
@@ -103,18 +105,30 @@ const UserList = () => {
                   <FcDeleteDatabase
                     className={userListCss.icon}
                   ></FcDeleteDatabase>{" "}
-                  user
+                  <div>
+                    {" "}
+                    <p>delete</p>
+                    <p>user</p>
+                  </div>
+                  {/* del user */}
                 </div>
               </div>
             </div>
           );
         });
         settotalUser(newArray);
+        setLoader(false);
       })
       .catch((err) => {
-        console.log(err);
+      
+        setLoader(false);
       });
   }, []);
-  return <>{totalUser}</>;
+  return (
+    <>
+      {!loader && totalUser}
+      {loader &&<div className={userListCss.loader}> <Vortex></Vortex>getting list and styling...</div>}
+    </>
+  );
 };
 export default UserList;

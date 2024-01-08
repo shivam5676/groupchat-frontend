@@ -12,17 +12,15 @@ import { BsFillSendFill } from "react-icons/bs";
 import ChatMessage from "./chatMessage";
 import { FaRegImages } from "react-icons/fa";
 import Socket from "../socket/socket";
-
+import InputEmojiWithRef from "react-input-emoji";
 
 const ChatWindow = () => {
- 
-
   const chatWindowRef = useRef(null);
   const dispatch = useDispatch();
 
   const messageref = useRef();
   const [pageDetail, setPageDetail] = useState(false);
-
+  const [messageData, setMessageData] = useState("");
   const groupId = useSelector((state) => {
     return state.data.groupId;
   });
@@ -39,7 +37,7 @@ const ChatWindow = () => {
   });
 
   const sendmsgHandler = () => {
-    const messageData = messageref.current.value;
+    // const messageData = messageref.current.value;
 
     Socket.emit("sendmsg", {
       message: messageData,
@@ -47,7 +45,7 @@ const ChatWindow = () => {
       token: localStorage.getItem("token"),
     });
 
-    messageref.current.value = "";
+    setMessageData("");
   };
 
   const pageDetailsViewer = () => {
@@ -62,9 +60,6 @@ const ChatWindow = () => {
   useEffect(() => {
     // Scroll to the bottom of the chat window when dependency is updated
     if (chatWindowRef.current) {
-      console.log("Container Height:", chatWindowRef.current.clientHeight);
-      console.log("Scroll Height:", chatWindowRef.current.scrollHeight);
-      console.log("Scroll Top:", chatWindowRef.current.scrollTop);
       setTimeout(() => {
         chatWindowRef.current.scrollTop = chatWindowRef.current.scrollHeight;
       }, 80);
@@ -74,6 +69,18 @@ const ChatWindow = () => {
     // props.imageUploaderOpen()
     dispatch(dataSliceActions.imageWindowLoader());
   };
+
+  function handleOnEnter(text) {
+    Socket.emit("sendmsg", {
+      message: messageData,
+      groupid: groupId,
+      token: localStorage.getItem("token"),
+    });
+  }
+  function inputHandler(text) {
+    setMessageData(text);
+  }
+
   return (
     <div className={windowcss.chatBox}>
       {chatWindowOpen && (
@@ -109,19 +116,27 @@ const ChatWindow = () => {
               </div>
 
               <div className={windowcss.chatInput}>
-                <FaRegImages
+                {/* //enable this image sending features by undoing and writing image api in node js server */}
+
+                {/* <FaRegImages
                   className={windowcss.imageUpload}
                   onClick={imageUploader}
-                />
-                <input
-                  ref={messageref}
+                /> */}
+                <InputEmojiWithRef
+                  value={messageData}
+                  onChange={inputHandler}
+                  cleanOnEnter
+                  onEnter={handleOnEnter}
+                  placeholder="Type a message"
                   className={windowcss.messageTaker}
-                ></input>
+                ></InputEmojiWithRef>
 
-                <BsFillSendFill
-                  className={windowcss.sendbtn}
-                  onClick={sendmsgHandler}
-                ></BsFillSendFill>
+                {messageData && (
+                  <BsFillSendFill
+                    className={windowcss.sendbtn}
+                    onClick={sendmsgHandler}
+                  ></BsFillSendFill>
+                )}
               </div>
             </>
           ) : (

@@ -9,9 +9,9 @@ import { ProgressBar } from "react-loader-spinner";
 import { toast } from "react-toastify";
 
 const SignUp = () => {
-  const [loader,setloader]=useState(false)
-  const domain=process.env.REACT_APP_BACKENDURL;
-  const navigate=useNavigate();
+  const [loader, setloader] = useState(false);
+  const domain = process.env.REACT_APP_BACKENDURL;
+  const navigate = useNavigate();
   const emailref = useRef();
   const passwordref = useRef();
   const nameref = useRef();
@@ -29,52 +29,48 @@ const SignUp = () => {
       name: nameValue,
       mobile: mobileValue,
     };
-    console.log(myObj);
-    setloader(true)
-    setTimeout(()=>{
-      axios
+    
+    setloader(true);
+
+    axios
       .post(`${domain}/user/savedata`, myObj)
       .then((response) => {
-        
-        toast.success(response.data.msg)
+        toast.success(response.data.msg);
         setTimeout(() => {
-          navigate("/login")
+          navigate("/login");
         }, 2000);
-
       })
       .catch((err) => {
-        
-        setloader(false)
-        if(err.respone){
+        setloader(false);
+        if (err.response) {
           toast.error(err.response.data.msg);
-       }
-      else{
-       toast.error(err.message)
-      }
+        } else {
+          toast.error(err.message);
+        }
       });
-    },1000)
-    
   };
-  const loginPageRedirecter=()=>{
-    return navigate("/login")
-  }
+  const loginPageRedirecter = () => {
+    return navigate("/login");
+  };
   return (
     <div className={signupcss.loginmain}>
       {" "}
       <div className={signupcss.container}>
         <div className={signupcss.leftContainer}>
-          <div className={signupcss.logoContainer}> <div className={signupcss.logo}></div></div>
-         
+          <div className={signupcss.logoContainer}>
+            {" "}
+            <div className={signupcss.logo}></div>
+          </div>
+
           <div className={signupcss.welcome}>
             <h1>Welcome User</h1>
             <div className={signupcss.paragraph}>
               <h3>register now on our platform & get all benefits :</h3>
-             <ul>
-              <li>sending and recieving messages</li>
-              <li>manage multiple groups as admin </li>
-              <li>and other premium features</li>
-             </ul>
-             
+              <ul>
+                <li>sending and recieving messages</li>
+                <li>manage multiple groups as admin </li>
+                <li> RealTime chatting enabled with Profile Image changer</li>
+              </ul>
             </div>
             <p className={signupcss.companyname}>chitchat messenger</p>
           </div>
@@ -84,7 +80,9 @@ const SignUp = () => {
             <div className={signupcss.signUpTitle}>SIGN-UP</div>
             <div className={signupcss.form}>
               <div className={signupcss.emailInput}>
-                <MdOutlineDriveFileRenameOutline className={signupcss.icon}></MdOutlineDriveFileRenameOutline>
+                <MdOutlineDriveFileRenameOutline
+                  className={signupcss.icon}
+                ></MdOutlineDriveFileRenameOutline>
                 <input ref={nameref} placeholder="Enter your name"></input>
               </div>
               <div className={signupcss.emailInput}>
@@ -106,7 +104,7 @@ const SignUp = () => {
             </div>
 
             <div className={signupcss.button}>
-           { loader ? (
+              {loader ? (
                 <ProgressBar
                   height="50"
                   width="70"
@@ -116,19 +114,28 @@ const SignUp = () => {
                   borderColor="yellow"
                   barColor="yellow"
                 />
-              )  :<button className={signupcss.loginbutton} onClick={signupHandler}>
-                SignUp
-              </button>}
+              ) : (
+                <button
+                  className={signupcss.loginbutton}
+                  onClick={signupHandler}
+                >
+                  SignUp
+                </button>
+              )}
             </div>
             <h3>or</h3>
             <div className={signupcss.button}>
-              <button className={signupcss.signupbutton} onClick={loginPageRedirecter}>SignIn</button>
+              <button
+                className={signupcss.signupbutton}
+                onClick={loginPageRedirecter}
+              >
+                SignIn
+              </button>
             </div>
           </div>
         </div>
       </div>
     </div>
-
   );
 };
 export default SignUp;

@@ -5,6 +5,7 @@ import { FiLogOut } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { dataSliceActions } from "../store/data";
+import { FaUserSecret } from "react-icons/fa";
 
 
 const SidePanel = (props) => {
@@ -33,7 +34,8 @@ localStorage.removeItem("myId")
       <div className={sidepanelcss.iconbox}>
         {" "}
         <div className={sidepanelcss.iconbg}>
-          <AiFillSetting className={sidepanelcss.icon} onClick={imageUploader}></AiFillSetting>
+        
+          <FaUserSecret  className={sidepanelcss.icon} onClick={imageUploader}></FaUserSecret >
         </div>
         <div className={sidepanelcss.iconbg}>
           <MdOutlineGroupAdd className={sidepanelcss.icon} onClick={addGroupHandler}></MdOutlineGroupAdd>

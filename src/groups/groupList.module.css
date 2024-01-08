@@ -36,9 +36,9 @@
   color: white;
 }
 .profileImg {
-  width: 50px;
-  height: 45px;
-  border: 2px solid red;
+  width: 52px;
+  height: 52px;
+  border: 1px solid rgb(47, 43, 43);
   border-radius: 50px;
   margin: 5px 5px 5px 10px;
   display: flex;

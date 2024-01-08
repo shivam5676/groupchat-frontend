@@ -11,7 +11,7 @@
   justify-content: center;
   height: 150px;
   width: 100%;
-  border-bottom: 1px solid rgb(185, 26, 26);
+  border-bottom: 1px solid rgb(232, 230, 230);
   margin-bottom: 2px;
 }
 .pageimg {
@@ -65,6 +65,11 @@
 .membericon > .icon {
   height: 25px;
   width: 25px;
+}
+.membericon:hover{
+  box-shadow: 2px 3px 4px rgb(47, 48, 48);
+  background-color: darkorange;
+  cursor: pointer;
 }
 .pageMemberList {
   display: flex;

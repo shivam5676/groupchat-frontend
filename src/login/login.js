@@ -9,10 +9,9 @@ import { dataSliceActions } from "../store/data";
 import { ProgressBar } from "react-loader-spinner";
 import { toast } from "react-toastify";
 
-
 const Login = () => {
   const [loader, setLoader] = useState(false);
-  const domain =process.env.REACT_APP_BACKENDURL;
+  const domain = process.env.REACT_APP_BACKENDURL;
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const emailref = useRef();
@@ -24,30 +23,24 @@ const Login = () => {
       password: passwordref.current.value,
     };
 
-    setTimeout(async() => {
-      try {
-        const res = await axios.post(`${domain}/user/login`, myobj);
+    try {
+      const res = await axios.post(`${domain}/user/login`, myobj);
 
-        localStorage.setItem("token", res.data.token);
-        localStorage.setItem("isLoggedIn", true);
-        dispatch(dataSliceActions.login());
+      localStorage.setItem("token", res.data.token);
+      localStorage.setItem("isLoggedIn", true);
+      dispatch(dataSliceActions.login());
+
+      navigate("/home");
+    } catch (err) {
+    
+      setLoader(false);
+      if (err.response) {
        
-
-        
-          navigate("/home");
-      
-        
-      } catch (err) {
-        console.log(err)
-        setLoader(false);
-        if(err.respone){
-           toast.error(err.response.data.msg);
-        }
-       else{
-        toast.error(err.message)
-       }
+        toast.error(err.response.data.msg);
+      } else {
+        toast.error(err.message);
       }
-    }, 1000);
+    }
   };
   const signuppageRediecter = () => {
     navigate("/signup");
@@ -80,7 +73,7 @@ const Login = () => {
               </div>
             </div>
             <div className={logincss.forgetPassword}>
-              <NavLink to="/forget">forget password</NavLink>
+              <NavLink to="/forgotPassword">forget password</NavLink>
             </div>
 
             <div className={logincss.button}>

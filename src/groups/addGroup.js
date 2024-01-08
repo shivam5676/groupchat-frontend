@@ -4,8 +4,10 @@ import addgroupcss from "./addGroup.module.css";
 import { BsFillArrowLeftCircleFill } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { Vortex } from "react-loader-spinner";
 
 const AddGroup = () => {
+  const [loader, setLoader] = useState(false);
   const useDomain = process.env.REACT_APP_BACKENDURL;
   const navigate = useNavigate();
   const groupNameref = useRef();
@@ -18,6 +20,7 @@ const AddGroup = () => {
       },3300)
       return;
     }
+    setLoader(true);
     axios
       .post(
         `${useDomain}/user/creategroup`,
@@ -36,8 +39,11 @@ const AddGroup = () => {
         }, 3000);
       })
       .catch((err) => {
-        console.log(err);
+        
         toast.error("something went wrong try again .....");
+      }).finally(() => {
+        // Hide loader when the request is completed
+        setLoader(false);
       });
   };
   function backbuttonHandler() {
@@ -56,9 +62,23 @@ const AddGroup = () => {
         <div className={addgroupcss.input}>
           <input ref={groupNameref}></input>
         </div>
-        <button onClick={addGroupHandler} className={addgroupcss.submitbtn}>
-          create
-        </button>
+        {loader ? (
+          <div className={addgroupcss.loader}>
+            <Vortex
+              visible={true}
+              height="40"
+              width="40"
+              ariaLabel="vortex-loading"
+              wrapperStyle={{}}
+              wrapperClass="vortex-wrapper"
+              colors={["#000000"]}
+            />
+          </div>
+        ) : (
+          <button onClick={addGroupHandler} className={addgroupcss.submitbtn}>
+            Create
+          </button>
+        )}
         <p className={addgroupcss.message}>{msg}</p>
       </div>
     </div>

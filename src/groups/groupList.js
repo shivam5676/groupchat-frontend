@@ -17,40 +17,36 @@ const GroupList = (props) => {
   const [groupListData, setGroupListData] = useState([]);
   const [isActive, setActive] = useState(null);
   const [loader, setLoader] = useState(true);
-  const [lastMessageTxt,setLastMessageTxt]=useState();
+  const [lastMessageTxt, setLastMessageTxt] = useState(1);
   const dispatch = useDispatch();
-const domain=process.env.REACT_APP_BACKENDURL;
+  const domain = process.env.REACT_APP_BACKENDURL;
   const groupHandler = (group) => {
-   
     dispatch(dataSliceActions.addGroupId(group.id));
     dispatch(dataSliceActions.addGroupName(group.groupName));
     dispatch(dataSliceActions.activateChatWindow());
     setActive(group.id);
   };
-console.log("isActive",isActive)
+ 
   const AllGroupMsg = useSelector((state) => state.data.Allmsg);
   const grouplist = useSelector((state) => state.data.groupList);
-  
+
   useEffect(() => {
-    
+    setTimeout(() => {let lastmsgId;
+    let lastmessage;
 
-
-    
     const newArray = grouplist.map((current) => {
-      console.log(current)
+      
       Socket.emit("join-room", current[0].id);
       const currentGrp = AllGroupMsg[current[0].id];
-      let lastmsgId;
-      let lastmessage;
+
       if (currentGrp && currentGrp.length > 0) {
         lastmsgId = currentGrp[currentGrp.length - 1].messageid;
         lastmessage = `${currentGrp[currentGrp.length - 1].user.name} : ${
           currentGrp[currentGrp.length - 1].text
         }`;
-        setLastMessageTxt(lastmessage);
       } else {
         lastmsgId = null;
-        lastmessage = "No messages yet";      
+        lastmessage = "click & check new msg";
       }
       axios
         .get(
@@ -70,13 +66,13 @@ console.log("isActive",isActive)
       //display current group card
       return (
         <div
-          className={`${groupListcss.item}`
-           
-           }
+          className={`${groupListcss.item}`}
           key={current[0].id}
           onClick={() => groupHandler(current[0])}
         >
-          <div className={groupListcss.profileImg}><img src={current[0].groupImage} alt="Group Image" /></div>
+          <div className={groupListcss.profileImg}>
+            <img src={current[0].groupImage} alt="Group Image" />
+          </div>
           <div className={groupListcss.groupInfo}>
             <div className={groupListcss.groupName}>
               <p>{current[0].groupName}</p>
@@ -88,13 +84,14 @@ console.log("isActive",isActive)
       );
     });
     setGroupListData(newArray);
-    setLoader(false);
+    setLoader(false);}, 1500);
 
+    
   }, [grouplist]);
-
+ 
   useEffect(() => {
     Socket.on("getMsg", (data) => {
-      console.log(data);
+      
       dispatch(dataSliceActions.addMsg(data));
     });
   }, []);

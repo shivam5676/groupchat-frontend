@@ -45,7 +45,7 @@ const HomePage = () => {
         headers: { Authorization: localStorage.getItem("token") },
       })
       .then((response) => {
-        console.log(response)
+       
         response.data.forEach((current) => {
           dispatch(dataSliceActions.addGroupList(current));
         });

@@ -1,7 +1,7 @@
 .memberCard {
     display: flex;
     width: 100%;
-    height: 53px;
+    height: 56px;
     background-color: aliceblue;
     margin: 5px 0px;
     border-radius: 10px;
@@ -42,12 +42,14 @@
   .memberActions{
     display:flex;
     flex-direction: column;
+    justify-content: center;
     width:70px;
    
   
     font-size: .85rem;
   }
   .actionIcon{
+   display: flex;
     border:1px solid blueviolet;
     margin-top: 1px;
     margin-right: 5px;
@@ -57,9 +59,16 @@
   .actionIcon>.icon{
   width:18px;
   height:18px;
-  padding-left: 3px;
+  padding:0px 3px;
+ 
   }
-  
+  .actionIcon{
+    font-size: .7rem;
+  }
+  .actionIcon:hover{
+    background-color: rgb(48, 94, 184);
+    cursor: grab;
+  }
   .inputfield{
   display: flex;
   width:90%;
@@ -90,4 +99,15 @@
     color:rgb(167, 223, 13);
     /* order: 2; */
     position: fixed;
+  }
+  .loader{
+    display:flex;
+    height:100%;
+    width:100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    padding:10px;
+  
   }

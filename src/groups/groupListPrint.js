@@ -16,7 +16,7 @@ const groupHandler = (group) => {
     dispatch(dataSliceActions.activateChatWindow());
     setActive(group.id);
   };
-console.log(isActive)
+
     return(
  <div
           className={`${grouplistPrintcsss.item} ${
