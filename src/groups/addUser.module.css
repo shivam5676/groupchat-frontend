@@ -25,12 +25,20 @@
    
     flex-direction: column;
   }
+  @media (max-width: 355px) {
+    .memberDetails {
+      width: 140px;
+    }
+    .memberdetailsText {
+      width: 90px;
+    }
+  }
   .memberName,.memberPhone{
     overflow: hidden;
     text-wrap: nowrap;
     word-wrap: break-word;
     text-overflow: ellipsis;
-    padding:5px;
+    padding:5px 3px;
     font-weight: bold;
     font-size: .9rem;
   }
