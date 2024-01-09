@@ -1,12 +1,10 @@
-
 .groupList {
   display: flex;
   flex-direction: column;
   flex-basis: 260px;
   height: 100%;
- border-left: 1px solid gray;
- border-right: 1px solid grey;
-
+  border-left: 1px solid gray;
+  border-right: 1px solid grey;
 }
 .groupTitle {
   display: flex;
@@ -27,7 +25,7 @@
   flex-basis: 100%;
   height: 75px;
   background-color: aliceblue;
-  margin:  10px;
+  margin: 10px;
   border-radius: 10px;
   align-items: center;
 }
@@ -63,7 +61,7 @@
   flex-direction: column;
   padding: 7px 0px;
   max-width: 130px;
-  margin-top:10px;
+  margin-top: 10px;
 
   white-space: nowrap;
   overflow: hidden;
@@ -89,24 +87,37 @@
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
 }
-.loader{
-  display:flex;
-  height:100%;
-  width:100%;
+.loader {
+  display: flex;
+  height: 100%;
+  width: 100%;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   font-weight: bold;
-  padding:10px;
-
+  padding: 10px;
 }
-.loader>p{
-  margin:5px;
+.loader > p {
+  margin: 5px;
   display: flex;
   /* width:200px; */
 }
-.grpicon{
-  width:30px;
-  height:30px;
- margin:0 20px;
+.grpicon {
+  width: 30px;
+  height: 30px;
+  margin: 0 20px;
+}
+.sitename {
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: rgb(224, 219, 213);
+}
+.sitename > span {
+  font-size: 1rem;
+  padding-left: 5px;
+  
 }

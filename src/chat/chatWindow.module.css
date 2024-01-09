@@ -36,6 +36,11 @@
   border-radius: 0px 50px 0px 0px;
   border-bottom: 2px solid white;
 }
+@media (max-width: 600px) {
+  .chatProfile{
+    border-radius: 0px;
+  }
+}
 .backbtn {
   padding: 10px;
 }

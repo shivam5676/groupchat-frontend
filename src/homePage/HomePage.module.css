@@ -4,8 +4,6 @@
   width: 100vw;
   height: 100vh;
   background: url("../../public/homepage.jpg");
-  /* background-color: rgb(152, 252, 252); */
-  /* border: 2px solid black; */
 }
 .navigation {
   display: flex;
@@ -71,7 +69,21 @@
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
 }
+@media (max-width: 600px) {
+  .navigation {
+    display: none;
+  }
 
+  .container {
+    height: 100vh;
+  }
+  .containerBox {
+    margin: 0px;
+    height: 98vh;
+    margin: 2px 2px;
+    border-radius: 0px;
+  }
+}
 /* .iconbox{
   display: flex;
   flex-direction: column;

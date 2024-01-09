@@ -5,6 +5,7 @@
   height: 100%;
   border-radius: 0px 50px 50px 0px;
 }
+
 .pageData {
   display: flex;
   align-items: center;
@@ -177,4 +178,12 @@ padding-bottom: 5px;
   overflow: hidden;
   text-overflow: ellipsis;
   text-wrap: nowrap;
+}
+@media (max-width: 600px) {
+  .pageDetails {
+    border-radius: 0px;
+  }
+  .pageMemberList {
+    border-radius: 0px ;
+  }
 }
