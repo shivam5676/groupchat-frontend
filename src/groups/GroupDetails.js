@@ -75,7 +75,7 @@ const domain=process.env.REACT_APP_BACKENDURL;
               {GroupDetails.groupName}
             </div>
             <div className={groupdetailcss.pageCreatedBy}>
-              createdBy : {GroupDetails.users[0].name}
+              <span>createdBy :</span> {GroupDetails.users[0].name}
             </div>
             <div className={groupdetailcss.pageCreatedAt}>
               {" "}

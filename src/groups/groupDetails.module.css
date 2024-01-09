@@ -5,7 +5,6 @@
   height: 100%;
   border-radius: 0px 50px 50px 0px;
 }
-
 .pageData {
   display: flex;
   align-items: center;
@@ -16,7 +15,7 @@
   margin-bottom: 2px;
 }
 .pageimg {
-  display: none;
+ 
   width: 80px;
   height: 80px;
   border: 2px solid rgb(241, 238, 238);
@@ -180,10 +179,22 @@ padding-bottom: 5px;
   text-wrap: nowrap;
 }
 @media (max-width: 600px) {
-  .pageDetails {
-    border-radius: 0px;
+  .pageDetails {border-radius:0px;}
+  .pageMemberList {border-radius:0px}
+}
+@media (max-width: 340px) {
+
+  .pageCreatedBy {
+    width: 130px;
   }
-  .pageMemberList {
-    border-radius: 0px ;
+  .pageTitle {
+    width: 130px;
   }
+  .pageCreatedBy>span{
+    display: none;
+  }
+  .pageCreatedAt{
+    width:132px
+  }
+  .pageimg {margin:5px}
 }
