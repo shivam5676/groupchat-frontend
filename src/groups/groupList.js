@@ -4,19 +4,14 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { dataSliceActions } from "../store/data";
 
-// import socket from "../socket/socket";
 import { Vortex } from "react-loader-spinner";
 import { MdOutlineGroupAdd } from "react-icons/md";
-import GroupListPrint from "./groupListPrint";
 
-// import useSocket from "../socket/socket";
 import Socket from "../socket/socket";
-import useWindowSize from "../windowSize";
 
 const GroupList = (props) => {
   // const socket=useSocket()
-  
- 
+
   const [groupListData, setGroupListData] = useState([]);
   const [isActive, setActive] = useState(null);
   const [loader, setLoader] = useState(true);
@@ -24,20 +19,8 @@ const GroupList = (props) => {
   const dispatch = useDispatch();
   const domain = process.env.REACT_APP_BACKENDURL;
 
-  
   const AllGroupMsg = useSelector((state) => state.data.Allmsg);
   const grouplist = useSelector((state) => state.data.groupList);
-
-  let chatWindowOpenState = useSelector((state) => {
-    return state.data.isWindowOpen;
-  });
- 
-  const windowWidth = window.innerWidth;
-const {width}=useWindowSize()
-
-const [windowSizeState, setWindowSizeState] = useState(windowWidth>=600?true:!chatWindowOpenState);//600px
-
-
 
   const groupHandler = (group) => {
     dispatch(dataSliceActions.addGroupId(group.id));
@@ -107,101 +90,48 @@ const [windowSizeState, setWindowSizeState] = useState(windowWidth>=600?true:!ch
     Socket.on("getMsg", (data) => {
       dispatch(dataSliceActions.addMsg(data));
     });
-  }, []);
- 
+  }, [dispatch]);
 
-  const renderItems=<div className={groupListcss.groupList}>
-  <p className={groupListcss.groupTitle}>Chats</p>
-
-  <div className={groupListcss.groups}>
-    {loader ? (
-      <div className={groupListcss.loader}>
-        <Vortex
-          visible={true}
-          height="80"
-          width="80"
-          ariaLabel="vortex-loading"
-          wrapperStyle={{}}
-          wrapperClass="vortex-wrapper"
-          colors={[
-            "red",
-            "green",
-            "blue",
-            "yellow",
-            "orange",
-            "purple",
-          ]}
-        />
-        Fetching...
-      </div>
-    ) : (
-      groupListData
-    )}
-
-    {!loader && grouplist.length == 0 ? (
-      <div className={groupListcss.loader}>
-        <p>
-          create first group by clicking on{" "}
-          <MdOutlineGroupAdd
-            className={groupListcss.grpicon}
-          ></MdOutlineGroupAdd>
-        </p>{" "}
-      </div>
-    ) : (
-      ""
-    )}
-  </div>
-  <p className={groupListcss.sitename}>ChitChat messenger <span>™</span> </p>
-</div>
-console.log("i am not rendering")
   return (
     <>
-    {renderItems}
-      {/* {windowSizeState  && (
-        <div className={groupListcss.groupList}>
-          <p className={groupListcss.groupTitle}>Chats</p>
+      <div className={groupListcss.groupList}>
+        <p className={groupListcss.groupTitle}>Chats</p>
 
-          <div className={groupListcss.groups}>
-            {loader ? (
-              <div className={groupListcss.loader}>
-                <Vortex
-                  visible={true}
-                  height="80"
-                  width="80"
-                  ariaLabel="vortex-loading"
-                  wrapperStyle={{}}
-                  wrapperClass="vortex-wrapper"
-                  colors={[
-                    "red",
-                    "green",
-                    "blue",
-                    "yellow",
-                    "orange",
-                    "purple",
-                  ]}
-                />
-                Fetching...
-              </div>
-            ) : (
-              groupListData
-            )}
+        <div className={groupListcss.groups}>
+          {loader ? (
+            <div className={groupListcss.loader}>
+              <Vortex
+                visible={true}
+                height="80"
+                width="80"
+                ariaLabel="vortex-loading"
+                wrapperStyle={{}}
+                wrapperClass="vortex-wrapper"
+                colors={["red", "green", "blue", "yellow", "orange", "purple"]}
+              />
+              Fetching...
+            </div>
+          ) : (
+            groupListData
+          )}
 
-            {!loader && grouplist.length == 0 ? (
-              <div className={groupListcss.loader}>
-                <p>
-                  create first group by clicking on{" "}
-                  <MdOutlineGroupAdd
-                    className={groupListcss.grpicon}
-                  ></MdOutlineGroupAdd>
-                </p>{" "}
-              </div>
-            ) : (
-              ""
-            )}
-          </div>
-          <p className={groupListcss.sitename}>ChitChat messenger <span>™</span> </p>
+          {!loader && grouplist.length == 0 ? (
+            <div className={groupListcss.loader}>
+              <p>
+                create a new group by clicking on{" "}
+                <MdOutlineGroupAdd
+                  className={groupListcss.grpicon}
+                ></MdOutlineGroupAdd>
+              </p>{" "}
+            </div>
+          ) : (
+            ""
+          )}
         </div>
-      )} */}
+        <p className={groupListcss.sitename}>
+          ChitChat messenger <span>™</span>{" "}
+        </p>
+      </div>
     </>
   );
 };
