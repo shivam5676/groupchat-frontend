@@ -33,7 +33,7 @@ const GroupList = (props) => {
   });
  
   const windowWidth = window.innerWidth;
-
+const {width}=useWindowSize()
 
 const [windowSizeState, setWindowSizeState] = useState(windowWidth>=600?true:!chatWindowOpenState);//600px
 
@@ -108,10 +108,56 @@ const [windowSizeState, setWindowSizeState] = useState(windowWidth>=600?true:!ch
       dispatch(dataSliceActions.addMsg(data));
     });
   }, []);
-  console.log(chatWindowOpenState);
+ 
+
+  const renderItems=<div className={groupListcss.groupList}>
+  <p className={groupListcss.groupTitle}>Chats</p>
+
+  <div className={groupListcss.groups}>
+    {loader ? (
+      <div className={groupListcss.loader}>
+        <Vortex
+          visible={true}
+          height="80"
+          width="80"
+          ariaLabel="vortex-loading"
+          wrapperStyle={{}}
+          wrapperClass="vortex-wrapper"
+          colors={[
+            "red",
+            "green",
+            "blue",
+            "yellow",
+            "orange",
+            "purple",
+          ]}
+        />
+        Fetching...
+      </div>
+    ) : (
+      groupListData
+    )}
+
+    {!loader && grouplist.length == 0 ? (
+      <div className={groupListcss.loader}>
+        <p>
+          create first group by clicking on{" "}
+          <MdOutlineGroupAdd
+            className={groupListcss.grpicon}
+          ></MdOutlineGroupAdd>
+        </p>{" "}
+      </div>
+    ) : (
+      ""
+    )}
+  </div>
+  <p className={groupListcss.sitename}>ChitChat messenger <span>™</span> </p>
+</div>
+console.log("i am not rendering")
   return (
     <>
-      {windowSizeState  && (
+    {renderItems}
+      {/* {windowSizeState  && (
         <div className={groupListcss.groupList}>
           <p className={groupListcss.groupTitle}>Chats</p>
 
@@ -155,7 +201,7 @@ const [windowSizeState, setWindowSizeState] = useState(windowWidth>=600?true:!ch
           </div>
           <p className={groupListcss.sitename}>ChitChat messenger <span>™</span> </p>
         </div>
-      )}
+      )} */}
     </>
   );
 };

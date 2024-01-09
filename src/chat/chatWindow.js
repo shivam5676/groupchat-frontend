@@ -80,7 +80,7 @@ const ChatWindow = () => {
   function inputHandler(text) {
     setMessageData(text);
   }
-
+console.log("i am chat window")
   return (
     <div className={windowcss.chatBox}>
       {chatWindowOpen && (
